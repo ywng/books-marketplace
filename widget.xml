@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding = "utf-8" ?>
 <widget title="WreckList">
     <library name="jquery"/>
-    <library name="gtmob"/>
-    <css file="your_css.css"/>
+    
     <html file="your_html.html"/>
-    <library name="jquery.mobile"/> 
+    <css file="your_css.css"/>
     <javascript file="your_html.js"/>
+    
+    <library name="jquery.mobile"/> 
+    <library name="gtmob"/>
 </widget>
