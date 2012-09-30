@@ -1,0 +1,689 @@
+<!-- Home Page -->
+<div id="home" data-role="page" data-title="Home">
+    <div data-role='header' data-position='inline'>
+	    <h1>Home</h1>
+   	</div>
+	
+	<div id="home_content" data-role="content">
+			<a href="#buy" data-transition="flip" data-theme="a" data-role="button">
+                Buy
+            </a>
+            <a href="#sell" data-transition="flip" data-theme="a" data-role="button">
+                Sell
+            </a>
+            <a href="#inbox" data-transition="flip" data-theme="a" data-role="button">
+                Inbox
+            </a>
+            <a href="#records" data-transition="flip" data-theme="a" data-role="button">
+                Records
+            </a>
+	</div>
+    
+    <div id="home_footer" data-role="footer" class="ui-bar" data-position="fixed">
+        <div data-role="controlgroup" data-type="horizontal">
+            <a href="#search_dialog" data-rel="dialog" data-role="button" data-icon="search" data-transition="flip">Search</a>
+        </div>
+    </div>
+</div>
+
+<!-- Buy Page -->
+<div id="buy" data-role="page" data-title="Buy Books">
+    <div data-role='header' data-position='inline'>
+	    <h1>Buy</h1>
+   	</div>
+	
+	<div id="buy_content" data-role="content">
+        <ul id="buy_list" data-role="listview" data-divider-theme="a" data-inset="true">
+            <li data-role="list-divider" role="heading">
+                Suggested Books to Buy
+            </li>
+            <li data-theme="d">
+                <a href="#book" data-rel="dialog">
+                    Book1
+                    <span class="ui-li-count">
+                        19 from $20
+                    </span>
+                </a>
+            </li>
+            <li data-theme="e">
+                <a href="#book" data-rel="dialog">
+                    Book2
+                    <span class="ui-li-count">
+                        5 from $95
+                    </span>
+                </a>
+            </li>
+        </ul>
+	</div>
+    
+    <div id="my_footer" data-role="footer" class="ui-bar" data-position="fixed">
+        <div data-role="controlgroup" data-type="horizontal">
+        <a href="#home" data-role="button" data-icon="home" data-transition="flip" data-direction="reverse">Wrecklist Home</a>
+        <a href="#search_dialog" data-rel="dialog" data-role="button" data-icon="search" data-transition="flip">Search</a>
+        </div>
+    </div>
+</div>
+
+<!-- Sell Page -->
+<div id="sell" data-role="page" data-title="Sell Books">
+    <div data-role='header' data-position='inline'>
+	    <h1>Sell</h1>
+    </div>
+	
+	<div id="sell_content" data-role="content">
+		<ul id="sell_list" data-role="listview" data-divider-theme="a" data-inset="true">
+            <li data-role="list-divider" role="heading">
+                Suggested Books to Sell
+            </li>
+            <li data-theme="d">
+                <a href="#book" data-rel="dialog">
+                    Book1
+                    <span class="ui-li-count">
+                        19 from $20
+                    </span>
+                </a>
+            </li>
+            <li data-theme="e">
+                <a href="#book" data-rel="dialog">
+                    Book2
+                    <span class="ui-li-count">
+                        5 from $95
+                    </span>
+                </a>
+            </li>
+        </ul>
+	</div>
+    
+    <div id="my_footer" data-role="footer" class="ui-bar" data-position="fixed">
+        <div data-role="controlgroup" data-type="horizontal">
+            <a href="#home" data-role="button" data-icon="home" data-transition="flip" data-direction="reverse">Wrecklist Home</a>
+            <a href="#search_dialog" data-rel="dialog" data-role="button" data-icon="search" data-transition="flip">Search</a>
+        </div>
+    </div>
+</div>
+
+<!-- Inbox Page -->
+<div id="inbox" data-role="page" data-title="Inbox">
+    <div data-role='header' data-position='inline'>
+        <h1>Inbox</h1>
+    </div>
+    
+    <div id="inbox_content" data-role="content">
+        <ul id="message_list" data-role="listview" data-divider-theme="a" data-inset="true">
+            <li data-theme="d">
+                <a href="#view_message" data-rel="dialog">
+                    George B.
+                    <span class="ui-li-count">
+                        unread
+                    </span>
+                </a>
+            </li>
+            <li data-theme="e">
+                <a href="#view_message" data-rel="dialog">
+                    Bobby D.
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+    <div id="my_footer" data-role="footer" class="ui-bar" data-position="fixed">
+        <div data-role="controlgroup" data-type="horizontal">
+            <a href="#home" data-role="button" data-icon="home" data-transition="flip" data-direction="reverse">Wrecklist Home</a>
+            <a href="#search_dialog" data-rel="dialog" data-role="button" data-icon="search" data-transition="flip">Search</a>
+        </div>
+    </div>
+</div>
+
+<!-- View Message Dialog Page -->
+<div id="view_message" data-role="page" data-title="View Message">
+    <div data-role='header' data-position='inline' data-theme='e'>
+        <h1> </h1>
+   	</div>
+    
+    <div id="message_content" data-role="content" data-theme='e'>
+        <p>From: George B.</p>
+        <p>This is where the message from George B. goes.</p>
+        <a href="#send_message" data-rel="dialog" data-role="button" data-icon="back" data-theme='a' data-inline='true'>
+            Reply
+        </a>
+        <a href="#confirm_delete" data-rel="dialog" data-role="button" data-icon="delete" data-theme='a' data-inline='true'>
+            Delete
+        </a>
+    </div>
+</div>
+
+<!-- Records Page -->
+<div id="records" data-role="page" data-title="Records">
+    <div data-role='header' data-position='inline'>
+        <h1>Records</h1>
+    </div>
+    
+    <div id="records_content" data-role="content">
+        <ul id="pending_list" data-role="listview" data-divider-theme="a" data-inset="true">
+            <li data-role="list-divider" role="heading">
+                Pending Transactions
+            </li>
+            <li data-theme="d">
+                <a href="#record" data-rel="dialog">
+                    Book4 Purchase
+                </a>
+            </li>
+            <li data-theme="e">
+                <a href="#record" data-rel="dialog">
+                    Book3 Sell
+                </a>
+            </li>
+        </ul>
+        
+        <ul id="past_list" data-role="listview" data-divider-theme="a" data-inset="true">
+            <li data-role="list-divider" role="heading">
+                Past Transactions
+            </li>
+            <li data-theme="d">
+                <a href="#record" data-rel="dialog">
+                    Book2 Sell
+                </a>
+            </li>
+            <li data-theme="e">
+                <a href="#record" data-rel="dialog">
+                    Book1 Purchase
+                </a>
+            </li>
+        </ul>
+        
+        <ul id="for_sale_list" data-role="listview" data-divider-theme="a" data-inset="true">
+            <li data-role="list-divider" role="heading">
+                Edit Your Listings
+            </li>
+            <li data-theme="d">
+                <a href="#edit_listing" data-rel="dialog">
+                    Book1
+                </a>
+            </li>
+            <li data-theme="e">
+                <a href="#edit_listing" data-rel="dialog">
+                    Book5
+                </a>
+            </li>
+        </ul>
+        
+        <ul id="wishlist" data-role="listview" data-divider-theme="a" data-inset="true">
+            <li data-role="list-divider" role="heading">
+                Your Wishlist
+            </li>
+            <li data-theme="d">
+                <a href="#wish" data-rel="dialog">
+                    Book6
+                </a>
+            </li>
+            <li data-theme="e">
+                <a href="#wish" data-rel="dialog">
+                    Book7
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+    <div id="my_footer" data-role="footer" class="ui-bar" data-position="fixed">
+        <div data-role="controlgroup" data-type="horizontal">
+            <a href="#home" data-role="button" data-icon="home" data-transition="flip" data-direction="reverse">Wrecklist Home</a>
+            <a href="#search_dialog" data-rel="dialog" data-role="button" data-icon="search" data-transition="flip">Search</a>
+        </div>
+    </div>
+</div>
+
+<!-- Record Dialog Page -->
+<div id="record" data-role="page" data-title="Record">
+    <div data-role='header' data-position='inline' data-theme='e'>
+        <h1> </h1>
+   	</div>
+    
+    <div id="record_content" data-role="content" data-theme='e'>
+        <p> Book4 from George B. for $20</p>
+        <a href="#rate_dialog" data-rel="dialog" data-role="button" data-icon="star" data-theme='a' data-inline='true'>
+            Rate and Close Transaction
+        </a>
+        <a href="#confirm_cancel" data-rel="dialog" data-role="button" data-icon="delete" data-theme='a' data-inline='true'>
+            Cancel Transaction
+        </a>
+    </div>
+</div>
+
+<!-- Book Dialog Page -->
+<div id="book" data-role="page" data-title="Book Title">
+    <div data-role='header' data-position='inline' data-theme='e'>
+        <h1> </h1>
+    </div>
+    
+    <div id="book_content" data-role="content">
+        <p>Title: Book1</p>
+        <p>Author: Bobby Dodd</p>
+        <p>Edition: 6th</p>
+        <p>Tagged Courses: GT1000</p>
+        <a href="#create_listing" data-role="button" data-icon="add" data-inline="true" data-rel="dialog" data-theme='a'>
+            Sell this Book
+        </a>
+        <ul id="book_list" data-role="listview" data-divider-theme="a" data-inset="true">
+            <li data-role="list-divider" role="heading">
+                Current Sellers
+            </li>
+            <li data-theme="d">
+                <a href="#listing" data-rel="dialog">
+                    George B.
+                </a>
+                <span class="ui-li-count">
+                    $20
+                </span>
+            </li>
+            <li data-theme="e">
+                <a href="#listing" data-rel="dialog">
+                    Buzz
+                </a>
+                <span class="ui-li-count">
+                    $25
+                </span>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Listing Dialog Page -->
+<div id="listing" data-role="page" data-title="Seller's Listing">
+    <div data-role='header' data-position='inline' data-theme='e'>
+        <h1> </h1>
+   	</div>
+    
+    <div id="listing_content" data-role="content" data-theme='e'>
+        <p>Title: Book1</p>
+        <p>Edition: 6th</p>
+        <p>Seller: George B.</p>
+        <p>Price: $20</p>
+        <p>Condition: Gently Used</p>
+        <p>Quantity Available: 2</p>
+        <a href="#send_message" data-role="button" data-inline="true" data-rel="dialog" data-theme='a'>
+            Buy Now
+        </a>
+    </div>
+</div>
+
+<!-- Create Listing Dialog Page -->
+<div id="create_listing" data-role="page" data-title="Create Listing">
+    <div data-role='header' data-position='inline' data-theme='e'>
+        <h1> </h1>
+   	</div>
+    
+    <div id="create_listing_content" data-role="content" data-theme='e'>
+        <p>Title: Book1</p>
+        <p>Edition: 6th</p>
+        <p>Note: Form elements for the seller to fill out his or her listing information will go here soon.</p>
+        <a href="#listing_created" data-role="button" data-icon="add" data-inline="true" data-theme='a'>
+            Add Listing
+        </a>
+    </div>
+</div>
+
+<!-- Listing Created Page -->
+<div id="listing_created" data-role="page" data-title="Listing Created">
+    <div data-role='header' data-position='inline'>
+        <h1>Listing Added</h1>
+    </div>
+    
+    <div id="listing_created_content" data-role="content">
+        <p>Your listing has been added. Book1 is now for sale.</p>
+        <a href="#records" data-role="button" data-inline="true" data-theme='a' data-transition="flip">
+            Records
+        </a>
+    </div>
+    
+    <div id="my_footer" data-role="footer" class="ui-bar" data-position="fixed">
+        <div data-role="controlgroup" data-type="horizontal">
+            <a href="#home" data-role="button" data-icon="home" data-transition="flip" data-direction="reverse">Wrecklist Home</a>
+            <a href="#search_dialog" data-rel="dialog" data-role="button" data-icon="search" data-transition="flip">Search</a>
+        </div>
+    </div>
+</div>
+
+<!-- Create Item Dialog Page -->
+<div id="create_item" data-role="page" data-title="Create Item">
+    <div data-role='header' data-position='inline' data-theme='e'>
+        <h1> </h1>
+   	</div>
+    
+    <div id="create_listing_content" data-role="content" data-theme='e'>
+        <p>Note: Form elements for the user to fill out new item information will go here soon.</p>
+        <p>Do you wish to sell this item or add it to your wishlist?</p>
+        <a href="#create_listing" data-role="button" data-inline="true" data-rel="dialog" data-theme='a'>
+            Sell
+        </a>
+        <a href="#added_to_wishlist" data-role="button" data-inline="true" data-theme='a'>
+            Add to Wishlist
+        </a>
+    </div>
+</div>
+
+<!-- Add to Wishlist Confirm Page -->
+<div id="added_to_wishlist" data-role="page" data-title="Added to Wishlist">
+    <div data-role='header' data-position='inline'>
+        <h1>Item Added</h1>
+    </div>
+    
+    <div id="added_to_wishlist_content" data-role="content">
+        <p>Book1 was added to your Wishlist.</p>
+        <a href="#records" data-role="button" data-inline="true" data-theme='a' data-transition="flip">
+            Records
+        </a>
+    </div>
+    
+    <div id="my_footer" data-role="footer" class="ui-bar" data-position="fixed">
+        <div data-role="controlgroup" data-type="horizontal">
+            <a href="#home" data-role="button" data-icon="home" data-transition="flip" data-direction="reverse">Wrecklist Home</a>
+            <a href="#search_dialog" data-rel="dialog" data-role="button" data-icon="search" data-transition="flip">Search</a>
+        </div>
+    </div>
+</div>
+
+<!-- Search Dialog Page -->
+<div id="search_dialog" data-role="page" data-title="Search">
+    <div data-role='header' data-position='inline' data-theme='e'>
+        <h1> </h1>
+    </div>
+    
+    <div id="search_content" data-role="content" data-theme='e'>
+        <p>Note: Search Bar and Submit Button not working yet</p>
+        <div data-inline="true">
+            <form name="search">
+                <input type="search" name="search" id="search" data-inline="true"><!-- <input type="submit" value="Search" data-inline="true" data-theme='a'>--><a href="#search_results" data-role="button" data-inline="true" data-theme='a'>Search</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Search Results -->
+<div id="search_results" data-role="page" data-title="Search Results">
+    <div data-role='header' data-position='inline'>
+	    <h1>Search Results</h1>
+   	</div>
+	
+	<div id="results_content" data-role="content">
+        <p>Is the item you are searching for not already listed?</p>
+        <a href="#create_item" data-role="button" data-rel="dialog" data-icon="add" data-transition="flip">
+            Add New Item
+        </a>
+        <ul id="results_list" data-role="listview" data-divider-theme="a" data-inset="true">
+            <li data-role="list-divider" role="heading">
+                Search Results for "Book"
+            </li>
+            <li data-theme="d">
+                <a href="#book" data-rel="dialog">
+                    Book1
+                    <span class="ui-li-count">
+                        19 from $20
+                    </span>
+                </a>
+            </li>
+            <li data-theme="e">
+                <a href="#book" data-rel="dialog">
+                    Book2
+                    <span class="ui-li-count">
+                        5 from $95
+                    </span>
+                </a>
+            </li>
+        </ul>
+	</div>
+    
+    <div id="my_footer" data-role="footer" class="ui-bar" data-position="fixed">
+        <div data-role="controlgroup" data-type="horizontal">
+            <a href="#home" data-role="button" data-icon="home" data-transition="flip" data-direction="reverse">Wrecklist Home</a>
+            <a href="#search_dialog" data-rel="dialog" data-role="button" data-icon="search" data-transition="flip">Search</a>
+        </div>
+    </div>
+</div>
+
+<!-- Send Message Dialog Page -->
+<div id="send_message" data-role="page" data-title="Send Message">
+    <div data-role='header' data-position='inline' data-theme='e'>
+        <h1> </h1>
+   	</div>
+    
+    <div id="send_message_content" data-role="content">
+        <p>To: George B.</p>
+        <p>Note: Form elements for users to send messages to other users will go here soon.</p>
+        <a href="#message_sent" data-role="button" data-theme='a'>
+            Send
+        </a>
+    </div>
+</div>
+
+<!-- Message Sent Page -->
+<div id="message_sent" data-role="page" data-title="Message Sent">
+    <div data-role='header' data-position='inline' data-theme='e'>
+        <h1>Message Sent</h1>
+    </div>
+    
+    <div id="message_sent_content" data-role="content">
+        <p>Your message has been sent to George B.</p>
+        <a href="#inbox" data-role="button" data-theme='a' data-icon="back" data-transition="flip" data-inline="true">
+            Inbox
+        </a>
+    </div>
+    
+    <div id="my_footer" data-role="footer" class="ui-bar" data-position="fixed">
+        <div data-role="controlgroup" data-type="horizontal">
+            <a href="#home" data-role="button" data-icon="home" data-transition="flip" data-direction="reverse">Wrecklist Home</a>
+            <a href="#search_dialog" data-rel="dialog" data-role="button" data-icon="search" data-transition="flip">Search</a>
+        </div>
+    </div>
+</div>
+
+<!-- Confirm Delete Dialog Page -->
+<div id="confirm_delete" data-role="page" data-title="Confirm Delete">
+    <div data-role='header' data-position='inline' data-theme='e'>
+        <h1> </h1>
+   	</div>
+    
+    <div id="confirm_delete_content" data-role="content" data-theme='e'>
+        <p>Are you sure you wish to delete this message permanently? You will not be able to access the contents of this message after deleting.</p>
+        <a href="#view_message" data-role="button" data-inline="true" data-theme='a'>No</a>
+        <a href="#message_deleted" data-role="button" data-inline="true" data-theme='d'>Yes</a>
+    </div>
+</div>
+
+<!-- Message Deleted Page -->
+<div id="message_deleted" data-role="page" data-title="Message Deleted">
+    <div data-role='header' data-position='inline'>
+        <h1>Message Deleted</h1>
+    </div>
+    
+    <div id="message_deleted_content" data-role="content">
+        <p>This message has been permanently deleted.</p>
+        <a href="#inbox" data-role="button" data-icon="back" data-transition="flip" data-inline="true" data-theme='a'>
+            Inbox
+        </a>
+    </div>
+        
+    <div id="my_footer" data-role="footer" class="ui-bar" data-position="fixed">
+        <div data-role="controlgroup" data-type="horizontal">
+            <a href="#home" data-role="button" data-icon="home" data-transition="flip" data-direction="reverse">Wrecklist Home</a>
+            <a href="#search_dialog" data-rel="dialog" data-role="button" data-icon="search" data-transition="flip">Search</a>
+        </div>
+    </div>
+</div>
+
+<!-- Rate Dialog Page -->
+<div id="rate_dialog" data-role="page" data-title="Rate Transaction">
+    <div data-role='header' data-position='inline' data-theme='e'>
+        <h1> </h1>
+   	</div>
+    
+    <div id="rate_content" data-role="content" data-theme='e'>
+        <p>After giving a rating, the transaction will be permanently closed.</p>
+        <p>Note: Form elements for users to rate their transactions with other users will go here soon.</p>
+        <a href="#rating_recorded" data-role="button" data-inline="true" data-transition="flip" data-theme='a'>
+            Record Rating
+        </a>
+    </div>
+</div>
+
+<!-- Rating Recorded Page -->
+<div id="rating_recorded" data-role="page" data-title="Rating Recorded">
+    <div data-role='header' data-position='inline'>
+        <h1>Rating Recorded</h1>
+    </div>
+    
+    <div id="rating_recorded_content" data-role="content">
+        <p>Your rating for this transaction has been recorded. The transaction is now listed under your past transactions.</p>
+        <a href="#records" data-role="button" data-icon="back" data-inline="true" data-theme='a'>
+            Records
+        </a>
+    </div>
+    
+    <div id="my_footer" data-role="footer" class="ui-bar" data-position="fixed">
+        <div data-role="controlgroup" data-type="horizontal">
+            <a href="#home" data-role="button" data-icon="home" data-transition="flip" data-direction="reverse">Wrecklist Home</a>
+            <a href="#search_dialog" data-rel="dialog" data-role="button" data-icon="search" data-transition="flip">Search</a>
+        </div>
+    </div>
+</div>
+
+<!-- Confirm Cancel Dialog Page -->
+<div id="confirm_cancel" data-role="page" data-title="Confirm Cancel">
+    <div data-role='header' data-position='inline' data-theme='e'>
+        <h1> </h1>
+   	</div>
+    
+    <div id="confirm_cancel_content" data-role="content" data-theme='e'>
+        <p>Are you sure you wish to cancel this transaction permanently? You will not be able to access this transaction after canceling.</p>
+        <a href="#record" data-role="button" data-inline="true" data-theme='a'>
+            No
+        </a>
+        <a href="#transaction_canceled" data-role="button" data-inline="true" data-theme='d'>
+            Yes
+        </a>
+    </div>
+</div>
+
+<!-- Transaction Canceled Page -->
+<div id="transaction_canceled" data-role="page" data-title="Transaction Canceled">
+    <div data-role='header' data-position='inline'>
+        <h1>Canceled</h1>
+    </div>
+
+    <div id="transaction_canceled_content" data-role="content">
+        <p>Your transaction has been permanently canceled. You will no longer be able to access this transaction.</p>
+        <a href="#records" data-role="button" data-icon="back" data-inline="true" data-theme='a'>
+            Records
+        </a>
+    </div>
+    
+    <div id="my_footer" data-role="footer" class="ui-bar" data-position="fixed">
+        <div data-role="controlgroup" data-type="horizontal">
+            <a href="#home" data-role="button" data-icon="home" data-transition="flip" data-direction="reverse">Wrecklist Home</a>
+            <a href="#search_dialog" data-rel="dialog" data-role="button" data-icon="search" data-transition="flip">Search</a>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Listing Dialog Page -->
+<div id="edit_listing" data-role="page" data-title="Edit Listing">
+    <div data-role='header' data-position='inline' data-theme='e'>
+        <h1> </h1>
+   	</div>
+    
+    <div id="edit_listing_content" data-role="content" data-theme='e'>
+        <p>Note: Form elements for editing listing will go here.</p>
+        <a href="#" data-role="button" data-inline="true" data-theme='a'>Save</a>
+        <a href="#confirm_delete_listing" data-role="button" data-rel="dialog" data-inline="true" data-theme='a'>Delete</a>
+    </div>
+</div>
+
+<!-- Confirm Delete Listing Dialog Page -->
+<div id="confirm_delete_listing" data-role="page" data-title="Confirm Delete Listing">
+    <div data-role='header' data-position='inline' data-theme='e'>
+        <h1> </h1>
+   	</div>
+    
+    <div id="confirm_delete_listing_content" data-role="content" data-theme='e'>
+        <p>Are you sure you wish to permanently delete this listing? Your item will no longer be listed for sale.</p>
+        <a href="#edit_listing" data-role="button" data-rel="dialog" data-inline="true" data-theme='a'>
+            No
+        </a>
+        <a href="#listing_deleted" data-role="button" data-inline="true" data-theme='d'>
+            Yes
+        </a>
+    </div>
+</div>
+
+<!-- Listing Deleted Page -->
+<div id="listing_deleted" data-role="page" data-title="Listing Deleted">
+    <div data-role='header' data-position='inline'>
+        <h1>Deleted</h1>
+    </div>
+    
+    <div id="listing_deleted_content" data-role="content">
+        <p>Your listing has been permanently deleted. Your item is not longer listed for sale.</p>
+        <a href="#records" data-role="button" data-icon="back" data-inline="true" data-theme='a'>
+            Records
+        </a>
+    </div>
+    
+    <div id="my_footer" data-role="footer" class="ui-bar" data-position="fixed">
+        <div data-role="controlgroup" data-type="horizontal">
+            <a href="#home" data-role="button" data-icon="home" data-transition="flip" data-direction="reverse">Wrecklist Home</a>
+            <a href="#search_dialog" data-rel="dialog" data-role="button" data-icon="search" data-transition="flip">Search</a>
+        </div>
+    </div>
+</div>
+
+<!-- Wish Dialog Page -->
+<div id="wish" data-role="page" data-title="Wish">
+    <div data-role='header' data-position='inline' data-theme='e'>
+        <h1> </h1>
+   	</div>
+    
+    <div id="wish_content" data-role="content" data-theme='e'>
+        <p>Title: Book6</p>
+        <p>You will be notified when this item is listed for sale.</p>
+        <a href="#remove_wish" data-role="button" data-rel="dialog" data-icon="delete" data-inline="true" data-theme='a'>
+            Remove from Wishlist
+        </a>
+    </div>
+</div>
+
+<!-- Remove Wish Dialog Page -->
+<div id="remove_wish" data-role="page" data-title="Wish">
+    <div data-role='header' data-position='inline' data-theme='e'>
+        <h1> </h1>
+   	</div>
+    
+    <div id="wish_content" data-role="content" data-theme='e'>
+        <p>Are you sure you wish to permanently remove this item from your Wishlist?</p>
+        <a href="#wish" data-role="button" data-rel="dialog" data-inline="true" data-theme='a'>
+            No
+        </a>
+        <a href="#wish_removed" data-role="button" data-inline="true" data-theme='d'>
+            Yes
+        </a>
+    </div>
+</div>
+
+<!-- Wish Removed Page -->
+<div id="wish_removed" data-role="page" data-title="Wish Removed">
+    <div data-role='header' data-position='inline'>
+        <h1>Removed</h1>
+    </div>
+    
+    <div id="wish_removed_content" data-role="content">
+        <p>This item has been permanently removed from your Wishlist.</p>
+        <a href="#records" data-role="button" data-icon="back" data-inline="true" data-theme='a'>
+            Records
+        </a>
+    </div>
+    
+    <div id="my_footer" data-role="footer" class="ui-bar" data-position="fixed">
+        <div data-role="controlgroup" data-type="horizontal">
+            <a href="#home" data-role="button" data-icon="home" data-transition="flip" data-direction="reverse">Wrecklist Home</a>
+            <a href="#search_dialog" data-rel="dialog" data-role="button" data-icon="search" data-transition="flip">Search</a>
+        </div>
+    </div>
+</div>

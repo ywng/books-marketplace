@@ -1,0 +1,7 @@
+#commitid: timestamp: author: brief description
+1: 09/24/2012 6:00 PM: Arvind: first commit
+2: 09/24/2012 9:26 PM: Devin: basic layout
+3: 09/24/2012 7:39 AM: Hayson: fixed app authentication error
+4: 09/24/2012 7:40 AM: Hayson: attempted to remove the 320px width of page elements
+5: 09/24/2012 8:10 AM: Hayson: commented out some explanatory statements in the layout.
+6: 09/28/2012 5:17 PM: Hayson: moved the GTMob home button to the right with javascript. It's a hack, if the size of the button changes, this won't work.
