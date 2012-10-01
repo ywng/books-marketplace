@@ -29,6 +29,10 @@
     </command>
     <command id='search' security='public'>
         <description><![CDATA[This search API lets you query for listings]]></description>
+        <index>
+            <description><![CDATA[This is how you can get a specific listing by name, description or ISBN]]></description>
+            <action file='search.php'><![CDATA[fetchSearchResults($_GET['search']);]]></action>
+        </index>
         <get>
             <description><![CDATA[This is how you can get a specific listing by name, description or ISBN]]></description>
             <action file='search.php'><![CDATA[fetchSearchResults($_REST['search']);]]></action>

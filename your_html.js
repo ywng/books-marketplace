@@ -4,11 +4,33 @@ $(function() {
     console.log('myfunction');
 
     $("#home").on('pageinit', function(e) {
-        console.log('page create event');
+        console.log('homePage create event');
         $("#searchFieldHome").on("keydown", function(e) {
             if (e.which == 13) {
                 var text = $(this).val();
                 if(text.length >= 1) {
+                    processSearchRequest(text, true);
+                }
+            }
+        }); // end of keydown event
+
+    }); // end of pageinit event on homepage
+
+
+    $("#searchResultsPage").on('pageinit', function(e) {
+        console.log('searchResultsPage create event');
+        $("#searchFieldSERP").on("keydown", function(e) {
+            if (e.which == 13) {
+                var text = $(this).val();
+                if(text.length >= 1) {
+                    processSearchRequest(text, false);
+                }
+            }
+        }); // end of keydown event
+
+    }); // end of pageinit event on search results page
+
+function processSearchRequest(text, isPageTransitionRequired) {
                     console.log('Input Search Query:' + text);
                     
                     $.ajax({
@@ -28,7 +50,9 @@ $(function() {
                             }
                             console.log('searchresults:' + str);
                             console.log('searchtext inside ajax:' + text);
-                            $.mobile.changePage( $("#searchResultsPage") );
+                            if(isPageTransitionRequired) {
+                                $.mobile.changePage( $("#searchResultsPage") );
+                            }
                             $("#searchFieldSERP").val(text);
                             $("#searchResults").html(str);
                             $("#searchResults").listview("refresh");
@@ -40,11 +64,7 @@ $(function() {
 
                     }); // end of the ajax call
 
-                } 
-            }   
-        }); // end of keydown event on searchField in the homepage
-
-    }); // end of pageinit event on homepage
+}
 
 }); //end of main jquery function invocation
 
