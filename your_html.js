@@ -45,7 +45,7 @@ function processSearchRequest(text, isPageTransitionRequired) {
                                 str += "<li data-theme=\"d\">";
                                 str += "<h2>" + data[i].title + "</h2>";
                                 str += "<p>" + data[i].edition + " by " + data[i].author + "</p>";
-                                str += "<p>" + data[i].numItemsForSale + "  items starting from $" + data[i].startingPrice + "</p>";
+                                str += "<span class=\"ui-li-count\">" + data[i].numItemsForSale + " items starting $" + data[i].startingPrice + "</span>";
                                 str += "</li>";
                             }
                             console.log('searchresults:' + str);
