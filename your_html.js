@@ -43,10 +43,11 @@ function processSearchRequest(text, isPageTransitionRequired) {
                             var str = ""; 
                             for(var i=0; i < data.length; i++) { 
                                 str += "<li data-theme=\"d\">";
+                                str += "<a href=\"#entity\" onclick=getListing(" + data[i].itemid + ")>";
                                 str += "<h2>" + data[i].title + "</h2>";
                                 str += "<p>" + data[i].edition + " by " + data[i].author + "</p>";
                                 str += "<span class=\"ui-li-count\">" + data[i].numItemsForSale + " items starting $" + data[i].startingPrice + "</span>";
-                                str += "</li>";
+                                str += "</a></li>";
                             }
                             console.log('searchresults:' + str);
                             console.log('searchtext inside ajax:' + text);
@@ -66,7 +67,13 @@ function processSearchRequest(text, isPageTransitionRequired) {
 
 }
 
+
 }); //end of main jquery function invocation
+
+function getListing(itemid) {
+    console.log("GetListing invoked with:"+ itemid);
+    document.getElementById("entity_content").innerHTML = "<p>" + itemid + "</p>";
+}
 
 function simpleIndex(){
     $.ajax({

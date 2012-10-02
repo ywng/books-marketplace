@@ -1,6 +1,7 @@
 <?php
 class SearchResult
 {
+    public $itemid;
     public $title;
     public $author;
     public $edition;
