@@ -43,7 +43,7 @@ function processSearchRequest(text, isPageTransitionRequired) {
                             var str = ""; 
                             for(var i=0; i < data.length; i++) { 
                                 str += "<li data-theme=\"d\">";
-                                str += "<a href=\"#entity\" onclick=getListing(" + data[i].itemid + ")>";
+                                str += "<a href=\"#entity\" onclick=handler_GetItemDetails(" + data[i].itemid + ")>";
                                 str += "<h2>" + data[i].title + "</h2>";
                                 str += "<p>" + data[i].edition + " by " + data[i].author + "</p>";
                                 str += "<span class=\"ui-li-count\">" + data[i].numItemsForSale + " items starting $" + data[i].startingPrice + "</span>";
@@ -60,7 +60,7 @@ function processSearchRequest(text, isPageTransitionRequired) {
                         },
                     
                         error: function(jqHXR, textStatus, errorThrown) {
-                            console.log('ajaxerror:' +textStatus + ' ' + errorThrown);
+                            console.log('ajaxerror in process search request call:' +textStatus + ' ' + errorThrown);
                         }
 
                     }); // end of the ajax call
@@ -70,9 +70,52 @@ function processSearchRequest(text, isPageTransitionRequired) {
 
 }); //end of main jquery function invocation
 
-function getListing(itemid) {
+function handler_GetItemDetails(itemid) {
     console.log("GetListing invoked with:"+ itemid);
-    document.getElementById("entity_content").innerHTML = "<p>" + itemid + "</p>";
+
+    $.ajax({
+        url: "api/itemdetails/" + itemid,
+        context: document.body,
+        dataType: "json", 
+        async: false,
+        success: function(data, textStatus, jqXHR){
+            var str = "";
+            if (data != null) {
+                str += "<p>Title: " + data.title + "</p>";
+                str += "<p>Author: " + data.author + "</p>";
+                str += "<p>Edition: " + data.edition + "</p>";
+                str += "<p>Tagged Courses: ";
+                if (data.tagArray != null) {
+                    for (var i = 0; i < data.tagArray.length; ++i) {
+                        str += data.tagArray[i];
+                        if (i != data.tagArray.length - 1) {
+                            str += ",";
+                        }
+                    }
+                }
+                str += "</p>";
+
+                str += "<ul>";
+                if (data.listingArray != null) {
+                    for (var i = 0; i < data.listingArray.length; ++i) {
+                        str += "<li>";
+                        str += "<p>ListingId: " + data.listingArray[i].id + "</p>";
+                        str += "<p>SellerName: " + data.listingArray[i].sellername + "</p>";
+                        str += "<p>Price: " + data.listingArray[i].price + "</p>";
+                        str += "<p>Condition: " + data.listingArray[i].condition + "</p>";
+
+                        str += "</li>";
+                    }
+                }
+                str += "</ul>";
+            }  
+            document.getElementById("entity_content").innerHTML = str;
+        },
+        error: function(jqHXR, textStatus, errorThrown) {
+            console.log('ajaxerror in get item details:' +textStatus + ' ' + errorThrown);
+        }
+    });
+
 }
 
 function simpleIndex(){
