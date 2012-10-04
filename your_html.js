@@ -79,6 +79,7 @@ function handler_GetItemDetails(itemid) {
         dataType: "json", 
         async: false,
         success: function(data, textStatus, jqXHR){
+            var outerdiv = document.getElementById("entity_content");
             var str = "";
             if (data != null) {
                 str += "<p>Title: " + data.title + "</p>";
@@ -89,27 +90,32 @@ function handler_GetItemDetails(itemid) {
                     for (var i = 0; i < data.tagArray.length; ++i) {
                         str += data.tagArray[i];
                         if (i != data.tagArray.length - 1) {
-                            str += ",";
+                            str += ", ";
                         }
                     }
                 }
                 str += "</p>";
+                outerdiv.getElementsByTagName("div")[0].innerHTML = str;
 
-                str += "<ul>";
+                outerdiv.getElementsByTagName("a")[0].removeAttribute("onclick");
+                outerdiv.getElementsByTagName("a")[0].setAttribute("onclick", "handler_SellItem(" + itemid + ")");
+
+                str = "<li data-role=\"list-divider\" role=\"heading\">Current Sellers</li>" ;
                 if (data.listingArray != null) {
                     for (var i = 0; i < data.listingArray.length; ++i) {
-                        str += "<li>";
-                        str += "<p>ListingId: " + data.listingArray[i].id + "</p>";
-                        str += "<p>SellerName: " + data.listingArray[i].sellername + "</p>";
-                        str += "<p>Price: " + data.listingArray[i].price + "</p>";
-                        str += "<p>Condition: " + data.listingArray[i].condition + "</p>";
+                        str += "<li data-theme=\""+ (i % 2 == 0? "d" : "e" ) +"\">";
+                        str += "<a href=\"#listing\" onclick=\"handler_GetListingDetails(" + data.listingArray[i].id + ")\">";
+                        str += "<h2>" + data.listingArray[i].sellername + "</h2>";
+                        str += "<p>Item Condition: " + data.listingArray[i].condition + "</p>";
+                        str += "</a>";
+                        str += "<span class=\"ui-li-count\">$" + data.listingArray[i].price + "</span>";
 
                         str += "</li>";
                     }
                 }
-                str += "</ul>";
+                
+                outerdiv.getElementsByTagName("ul")[0].innerHTML = str;
             }  
-            document.getElementById("entity_content").innerHTML = str;
         },
         error: function(jqHXR, textStatus, errorThrown) {
             console.log('ajaxerror in get item details:' +textStatus + ' ' + errorThrown);
