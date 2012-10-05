@@ -15,7 +15,7 @@ if(!$connection){
 $db_select = mysql_select_db($db_database);
 if(!$db_select){die("Error with db select.<br/><br/>".mysql_error());}
 
-function getDBResultsArray($dbQuery){
+function getDBResultsArray($dbQuery, $isEmptyDatasetAllowed = false){
 	$dbResults=mysql_query($dbQuery);
 
 	if(!$dbResults){
@@ -28,7 +28,7 @@ function getDBResultsArray($dbQuery){
 		while($row = mysql_fetch_assoc($dbResults)){
 			$resultsArray[] = $row;
 		}	
-	}else{
+	} else if (!$isEmptyDatasetAllowed) {
 		$GLOBALS["_PLATFORM"]->sandboxHeader('HTTP/1.1 404 Not Found');
 		die();
 	}
