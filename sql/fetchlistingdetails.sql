@@ -1,12 +1,5 @@
-SELECT Item.Title, Item.Author, Item.Edition
-FROM Item
-WHERE Item.ID = @itemid;
-
-SELECT Tag
-FROM Category
-WHERE ItemID = @itemid;
-
-SELECT lst.ID as ListingID, User.Name as SellerName, lst.Condition, lst.price
+SELECT Item.Title, Item.Edition, Item.Author, User.Name as SellerName, lst.Condition, lst.Price, lst.Quantity
 FROM Listing as lst
 INNER JOIN User ON lst.SellerID = User.ID
-WHERE lst.ItemID = @itemid;
+INNER JOIN Item ON lst.ItemID = Item.ID
+WHERE lst.ID = 2

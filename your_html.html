@@ -158,7 +158,7 @@
     <div data-role='header' data-position='inline' data-theme='e'>
         <h1> </h1>
     </div>
-    
+
     <div id="message_content" data-role="content" data-theme='e'>
         <p>From: George B.</p>
         <p>This is where the message from George B. goes.</p>
@@ -168,7 +168,7 @@
         <a href="#confirm_delete" data-rel="dialog" data-role="button" data-icon="delete" data-theme='a' data-inline='true'>
             Delete
         </a>
-    </div>
+    </div>    
 </div>
 
 <!-- Records Page -->
@@ -307,18 +307,13 @@
 </div>
 
 <!-- Listing Dialog Page -->
-<div id="listing" data-role="page" data-title="Seller's Listing">
+<div id="listing" data-role="page">
     <div data-role='header' data-position='inline' data-theme='e'>
         <h1> </h1>
     </div>
     
     <div id="listing_content" data-role="content" data-theme='e'>
-        <p>Title: Book1</p>
-        <p>Edition: 6th</p>
-        <p>Seller: George B.</p>
-        <p>Price: $20</p>
-        <p>Condition: Gently Used</p>
-        <p>Quantity Available: 2</p>
+        <div></div>
         <a href="#send_message" data-role="button" data-inline="true" data-rel="dialog" data-theme='a'>
             Buy Now
         </a>
@@ -462,12 +457,27 @@
 <!-- Send Message Dialog Page -->
 <div id="send_message" data-role="page" data-title="Send Message">
     <div data-role='header' data-position='inline' data-theme='e'>
-        <h1> </h1>
     </div>
     
     <div id="send_message_content" data-role="content">
-        <p>To: George B.</p>
-        <p>Note: Form elements for users to send messages to other users will go here soon.</p>
+        <form>
+            <p>Enter Exchange Info:</p>
+            Date 1: <input type = "datetime" name = "date1">
+            Date 2: <input type = "datetime" name = "date2">
+            Date 3: <input type = "datetime" name = "date3">
+            Location 1: <select>
+                            <option value ="starbucks">Starbucks</option>
+                            <option value ="sc">Student Center</option>
+                            <option value ="coc">CoC</option>
+                        </select>
+            Location 2: <select>
+                            <option value ="0">Starbucks</option>
+                            <option value ="1">Student Center</option>
+                            <option value ="2">CoC</option>
+                        </select>
+            Message(optional): <input type ="text" name = "note">
+        </form>
+
         <a href="#message_sent" data-role="button" data-theme='a'>
             Send
         </a>

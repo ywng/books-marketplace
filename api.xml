@@ -45,4 +45,11 @@
             <action file='itemdetails.php'><![CDATA[fetchItemDetailsAndListings($_REST['itemdetails']);]]></action>
         </get>
     </command>
+    <command id='listingdetails' security='public'>
+        <description><![CDATA[This search API lets you view details of a listing]]></description>
+        <get>
+            <description><![CDATA[This is how you can get the details of a listing]]></description>
+            <action file='listingdetails.php'><![CDATA[fetchListingDetails($_REST['listingdetails']);]]></action>
+        </get>
+    </command>
 </api>

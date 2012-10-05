@@ -71,7 +71,7 @@ function processSearchRequest(text, isPageTransitionRequired) {
 }); //end of main jquery function invocation
 
 function handler_GetItemDetails(itemid) {
-    console.log("GetListing invoked with:"+ itemid);
+    console.log("Get Item Details invoked with:"+ itemid);
 
     $.ajax({
         url: "api/itemdetails/" + itemid,
@@ -122,6 +122,39 @@ function handler_GetItemDetails(itemid) {
         }
     });
 
+}
+
+function handler_GetListingDetails(listingid) {
+    console.log("Get Listing Details invoked with:"+ listingid);
+
+    $.ajax({
+        url: "api/listingdetails/" + listingid,
+        context: document.body,
+        dataType: "json", 
+        async: false,
+        success: function(data, textStatus, jqXHR){
+            var outerdiv = document.getElementById("listing_content");
+            var str = "";
+            if (data != null) {
+                str += "<p>Title: " + data.itemtitle + "</p>";
+                str += "<p>Edition: " + data.itemedition + "</p>";
+                str += "<p>Author: " + data.itemauthor + "</p>";
+                str += "<p>Seller: " + data.sellername + "</p>";
+                str += "<p>Price: " + data.price + "</p>";
+                str += "<p>Condition: " + data.condition + "</p>";
+                str += "<p>Quantity Available: " + data.quantity + "</p>";
+                
+                outerdiv.getElementsByTagName("div")[0].innerHTML = str;
+
+                outerdiv.getElementsByTagName("a")[0].removeAttribute("onclick");
+                outerdiv.getElementsByTagName("a")[0].setAttribute("onclick", "handler_BuyListing(" + listingid + ")");
+
+            }  
+        },
+        error: function(jqHXR, textStatus, errorThrown) {
+            console.log('ajaxerror in get listing details:' +textStatus + ' ' + errorThrown);
+        }
+    });
 }
 
 function simpleIndex(){
