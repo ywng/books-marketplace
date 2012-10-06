@@ -478,23 +478,15 @@
     
     <div id="send_message_content" data-role="content">
         <form>
-            <p>Enter Exchange Info:</p>
-            Date 1: <input type = "datetime" name = "date1">
-            Date 2: <input type = "datetime" name = "date2">
-            Date 3: <input type = "datetime" name = "date3">
-            Location 1: <select>
-                            <option value ="starbucks">Starbucks</option>
-                            <option value ="sc">Student Center</option>
-                            <option value ="coc">CoC</option>
-                        </select>
-            Location 2: <select>
-                            <option value ="0">Starbucks</option>
-                            <option value ="1">Student Center</option>
-                            <option value ="2">CoC</option>
-                        </select>
-            Message(optional): <input type ="text" name = "note">
-        </form>
-
+			<p>Enter Exchange Info:</p>
+			Date/Time 1: <input type = "datetime" name = "date1" id = "date1">
+			Date/Time 2: <input type = "datetime" name = "date2" id = "date2">
+			Date/Time 3: <input type = "datetime" name = "date3" id = "date3">
+			Location 1: <input type = "text" name = "location1" id = "location1">
+			Location 2: <input type = "text" name = "location2" id = "location2">
+			Message(optional): <input type ="text" name = "note" id = "note">
+		</form>
+		
         <a href="#message_sent" data-role="button" data-theme='a'>
             Send
         </a>

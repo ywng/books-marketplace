@@ -1,14 +1,16 @@
 <?php
-class SearchResult
+class MessageResult
 {
 	public $transactionID;
-    public $sendDate;
-    public $Date1;
-    public $Date2;
-    public $Date3;
-    public $Location1;
-	public $Location2;
-	public $Note;
+    public $sender;
+    public $receiver;
+    public $dateSent;
+    public $date1;
+    public $date2;
+    public $date3;
+    public $location1;
+	public $location2;
+	public $note;
 }
 ?>
 

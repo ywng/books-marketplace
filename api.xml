@@ -59,4 +59,43 @@
             <action file='addlisting.php'><![CDATA[addListing($_POST['data']);]]></action>
         </post>
     </command>
+    <command id='debug' security='public'>
+        <description><![CDATA[This lets you debug JavaScript.]]></description>
+        <index>
+            <description><![CDATA[This is how you can debug JavaScript]]></description>
+            <action file='debug.php'><![CDATA[debugJavaScript();]]></action>
+        </index>
+    </command>
+
+   <command id='Records' security='public'>
+        <description><![CDATA[This lets you list out the records of the user]]></description>
+        <get>
+            <description><![CDATA[This is how you can get records of a user]]></description>
+            <action file='record.php'><![CDATA[fetchRecords($_REST['Records']);]]></action>
+        </get>
+    </command>
+    <command id='transRecord' security='public'>
+        <description><![CDATA[This lets you list out the tansaction details records]]></description>
+        <get>
+            <description><![CDATA[This is how you can get transaction records of a user]]></description>
+            <action file='transRecord.php'><![CDATA[fetchTransRecords($_REST['transRecord']);]]></action>
+        </get>
+        <put>
+            <description><![CDATA[This is how you can update transaction records of a user]]></description>
+            <action file='transRecord.php'><![CDATA[updateTransRecord($_REST['transRecord'],$_POST['itemValue']);]]></action>
+        </put>
+    </command>
+    <command id='transRecord' security='public'>
+        <description><![CDATA[This lets you list out the tansaction details records]]></description>
+        <get>
+            <description><![CDATA[This is how you can get transaction records of a user]]></description>
+            <action file='transRecord.php'><![CDATA[fetchTransRecords($_REST['transRecord']);]]></action>
+        </get>
+        <put>
+            <description><![CDATA[This is how you can update transaction records of a user]]></description>
+            <action file='transRecord.php'><![CDATA[updateTransRecord($_REST['transRecord'],$_POST['itemValue']);]]></action>
+        </put>
+    </command>
+
+
 </api>

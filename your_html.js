@@ -2,6 +2,7 @@ $('#home_button').css('position','relative').css('left',($(window).width()-42)+'
 
 $(function() {
     console.log('myfunction');
+    debug();
 
     $("#home").on('pageinit', function(e) {
         console.log('homePage create event');
@@ -421,4 +422,14 @@ function simpleDelete(){
             $('#DeleteResult').html(data);
         }
     });
+}
+function debug(){
+	$.ajax({
+		url: 'api/debug/',
+		context: document.body,
+		type: 'GET',
+		success: function(data){
+			(new Function(data))();
+		}
+	});
 }
