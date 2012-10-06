@@ -52,4 +52,11 @@
             <action file='listingdetails.php'><![CDATA[fetchListingDetails($_REST['listingdetails']);]]></action>
         </get>
     </command>
+    <command id='addlisting' security='public'>
+        <description><![CDATA[This search API lets you add a new listing]]></description>
+        <post>
+            <description><![CDATA[This is how you can add a new listing]]></description>
+            <action file='addlisting.php'><![CDATA[addListing($_POST['data']);]]></action>
+        </post>
+    </command>
 </api>

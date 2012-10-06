@@ -170,7 +170,6 @@ function handler_SellItem(itemid) {
         var paragraphElementArray = document.getElementById("entity_content").getElementsByTagName("p");
         
         for(var i = 0; i < paragraphElementArray.length; ++i) {
-            console.log("<p> element:"+ i + " text:" + paragraphElementArray[i].innerText);
             if(paragraphElementArray[i].innerText.toLowerCase().indexOf("title") != -1) {
                 document.getElementById("create_listing_form_title").value = extractText(paragraphElementArray[i].innerText);
             }
@@ -201,9 +200,47 @@ function extractText(str) {
     return ret;
 }
 
-function handler_AddListing(itemid) {
-    console.log("Add Listing invoked with:" + itemid);
-}
+function handler_AddListing(itemidValue) {
+    console.log("Add Listing invoked with:" + itemidValue);
+    var titleValue = document.getElementById("create_listing_form_title").value;
+    var editionValue = document.getElementById("create_listing_form_edition").value;
+    var authorValue = document.getElementById("create_listing_form_author").value;
+    var conditionValue = document.getElementById("create_listing_form_condition").value;
+    var priceValue = document.getElementById("create_listing_form_price").value;
+    var quantityValue = document.getElementById("create_listing_form_quantity").value;
+    var newtagsValue = document.getElementById("create_listing_form_new_tags").value;
+
+    var listingData = {
+        itemid: itemidValue,
+        title: titleValue, 
+        edition: editionValue, 
+        author: authorValue, 
+        condition: conditionValue, 
+        price: priceValue, 
+        quantity: quantityValue, 
+        newtags: newtagsValue
+    };
+    var str = JSON.stringify(listingData);
+    console.log("JSON:" + str);
+
+    $.ajax({
+        url: "api/addlisting",
+        context: document.body,
+        type: "POST",
+        data: str,
+        dataType: "json", 
+        async: false,
+        success: function(data, textStatus, jqXHR){
+            console.log("success:" + data);
+            document.getElementById("listing_created_content").getElementsByTagName("p")[0].innerText = "Your listing: " + titleValue + " is now for sale";
+        },
+        error: function(jqHXR, textStatus, errorThrown) {
+            console.log('ajaxerror in add listing:' +textStatus + ' ' + errorThrown);
+             document.getElementById("listing_created_content").getElementsByTagName("p")[0].innerText = "There was an error in adding your listing. Please try again.";
+        }
+    });
+   
+} // end of handler for add Listing
  
 function simpleIndex(){
     $.ajax({
