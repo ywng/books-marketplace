@@ -83,8 +83,8 @@ function handler_GetItemDetails(itemid) {
             var str = "";
             if (data != null) {
                 str += "<p>Title: " + data.title + "</p>";
-                str += "<p>Author: " + data.author + "</p>";
                 str += "<p>Edition: " + data.edition + "</p>";
+                str += "<p>Author: " + data.author + "</p>";
                 str += "<p>Tagged Courses: ";
                 if (data.tagArray != null) {
                     for (var i = 0; i < data.tagArray.length; ++i) {
@@ -157,6 +157,54 @@ function handler_GetListingDetails(listingid) {
     });
 }
 
+function handler_SellItem(itemid) {
+    console.log("Sell Item invoked with:"+ itemid);
+
+    var outerdiv = document.getElementById("create_listing_content");
+    outerdiv.getElementsByTagName("a")[0].removeAttribute("onclick");
+    outerdiv.getElementsByTagName("a")[0].setAttribute("onclick", "handler_AddListing(" + itemid + ")");
+
+    if(itemid > 0) { 
+        // this if-block says that the call to this handler came
+        // from the item details page and hence has non-negative id 
+        var paragraphElementArray = document.getElementById("entity_content").getElementsByTagName("p");
+        
+        for(var i = 0; i < paragraphElementArray.length; ++i) {
+            console.log("<p> element:"+ i + " text:" + paragraphElementArray[i].innerText);
+            if(paragraphElementArray[i].innerText.toLowerCase().indexOf("title") != -1) {
+                document.getElementById("create_listing_form_title").value = extractText(paragraphElementArray[i].innerText);
+            }
+            else if(paragraphElementArray[i].innerText.toLowerCase().indexOf("author") != -1) {
+                document.getElementById("create_listing_form_author").value = extractText(paragraphElementArray[i].innerText);
+            }
+            else if(paragraphElementArray[i].innerText.toLowerCase().indexOf("edition") != -1) {
+                document.getElementById("create_listing_form_edition").value = extractText(paragraphElementArray[i].innerText);
+            }
+            else if(paragraphElementArray[i].innerText.toLowerCase().indexOf("tag") != -1) {
+                document.getElementById("create_listing_form_existing_tags").value = extractText(paragraphElementArray[i].innerText);
+            }
+        }
+    }
+
+    //set quantity to default of 1
+    document.getElementById("create_listing_form_quantity").value = 1;
+
+} // end of handler for selling item
+
+function extractText(str) {
+    var index = str.indexOf(":");
+    var ret = "";
+    if(index != -1) {
+        ret = str.substring(index + 1);
+        ret = ret.replace(/^\s+/g, '');
+    }
+    return ret;
+}
+
+function handler_AddListing(itemid) {
+    console.log("Add Listing invoked with:" + itemid);
+}
+ 
 function simpleIndex(){
     $.ajax({
         url: "api/simple",

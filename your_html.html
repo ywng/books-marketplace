@@ -327,9 +327,26 @@
     </div>
     
     <div id="create_listing_content" data-role="content" data-theme='e'>
-        <p>Title: Book1</p>
-        <p>Edition: 6th</p>
-        <p>Note: Form elements for the seller to fill out his or her listing information will go here soon.</p>
+        <form id="create_listing_form">
+            <div data-role="fieldcontain">
+                <label for="create_listing_form_title">Title </label>
+                <input type="text" name="title" id="create_listing_form_title"/>
+                <label for="create_listing_form_edition">Edition </label>
+                <input type="text" name="edition" id="create_listing_form_edition"/>
+                <label for="create_listing_form_author">Author </label>
+                <input type="text" name="author" id="create_listing_form_author"/>
+                <label for="create_listing_form_condition">Condition </label>
+                <input type="text" name="condition" id="create_listing_form_condition"/>
+                <label for="create_listing_form_price">Price </label>
+                <input type="text" name="price" id="create_listing_form_price"/>
+                <label for="create_listing_form_quantity">Quantity </label>
+                <input type="text" name="condition" id="create_listing_form_quantity"/>
+                <label for="create_listing_form_existing_tags">Existing Tags </label>
+                <input type="text" name="existing_tags" id="create_listing_form_existing_tags" disabled="disabled"/>
+                <label for="create_listing_form_new_tags">Additional Tags </label>
+                <input type="text" name="new_tags" id="create_listing_form_new_tags"/>
+            </div>
+        </form> 
         <a href="#listing_created" data-role="button" data-icon="add" data-inline="true" data-theme='a'>
             Add Listing
         </a>
@@ -718,7 +735,7 @@
 </div>
 
 
-<!-- Book Dialog Page -->
+<!-- Entity Dialog Page -->
 <div id="entity" data-role="page">
     <div data-role='header' data-position='inline' data-theme='e'>
         <h1> </h1>
