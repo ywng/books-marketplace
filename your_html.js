@@ -30,6 +30,69 @@ $(function() {
 
     }); // end of pageinit event on search results page
 
+$("#inbox").on('pageinit', function(e) {
+                 console.log('inboxPage create event');
+                 var userID = '0';
+                 getMessages(userID);
+                 });
+
+  function getMessages(userID){
+  console.log('User ID:' + userID);
+  
+  $.ajax({
+         url: "api/inboxitems/" + userID,
+         context: document.body,
+         dataType: "json",
+         async: false,
+         success: function(data, textStatus, jqXHR){
+         console.log("Object returned by php:" + data);
+         var str1 = "";
+         for(var i=0; i < data.length; i++) {
+         str1 += "<li data-theme=\"d\">";
+         str1 += "<a href=\"#view_message\" data-rel=\"dialog\" onclick=handler_GetReceivedMessageDetails(" + data[i].transactionID + ")>";
+         str1 += "<h2>From: " + data[i].sender + "</h2>";
+         str1 += "<p>" + data[i].dateSent + "</p>";
+         str1 += "</a></li>";
+         }
+
+         console.log('inboxMessages:' + str1);
+         console.log('userID inside ajax:' + userID);
+         $("#inboxMessages").html(str1);
+         $("#inboxMessages").listview("refresh");
+  },
+         error: function(jqHXR, textStatus, errorThrown) {
+         console.log('ajaxerror in process message request call:' +textStatus + ' ' + errorThrown);
+        }
+         });
+
+  $.ajax({
+         url: "api/outboxitems/" + userID,
+         context: document.body,
+         dataType: "json",
+         async: false,
+         success: function(data, textStatus, jqXHR){
+         console.log("Object returned by php:" + data);
+         var str2 = "";
+         for(var i=0; i < data.length; i++) {
+         str2 += "<li data-theme=\"d\">";
+         str2 += "<a href=\"#view_message\" data-rel=\"dialog\" onclick=handler_GetSentMessageDetails(" + data[i].transactionID + ")>";
+         str2 += "<h2>To: " + data[i].receiver + "</h2>";
+         str2 += "<p>" + data[i].dateSent + "</p>";
+         str2 += "</li>";
+         }
+
+         console.log('inboxMessages:' + str2);
+         console.log('userID inside ajax:' + userID);
+         $("#outboxMessages").html(str2);
+         $("#outboxMessages").listview("refresh");
+         },
+         error: function(jqHXR, textStatus, errorThrown) {
+         console.log('ajaxerror in process message request call:' +textStatus + ' ' + errorThrown);
+         }
+         });
+
+  }
+
 function processSearchRequest(text, isPageTransitionRequired) {
                     console.log('Input Search Query:' + text);
                     
@@ -69,6 +132,72 @@ function processSearchRequest(text, isPageTransitionRequired) {
 
 
 }); //end of main jquery function invocation
+
+function handler_GetReceivedMessageDetails(transactionID) {
+    console.log("Get Received Message Details with transaction ID:" + transactionID);
+    
+    $.ajax({
+           url: "api/messagedetails/" + transactionID, // For some reason transactionID is wrong
+           context: document.body,
+           dataType: "json",
+           async: false,
+           success: function(data, textStatus, jqXHR){
+           //var outerdiv = document.getElementByID("message_content");
+           var str = ""; 
+           if(data.length != 0) {
+           str += "<p>From: " + data[0].sender + "</p>";
+           str += "<p>Date Sent: " + data[0].dateSent + "</p>";
+           str += "<p>Transaction ID: " + data[0].transactionID + "</p>";
+           str += "<p>First Suggested Date: " + data[0].date1 + "</p>";
+           str += "<p>Second Suggested Date: " + data[0].date2 + "</p>";
+           str += "<p>Third Suggested Date: " + data[0].date3 + "</p>";
+           str += "<p>First Suggested Location: " + data[0].location1 + "</p>";
+           str += "<p>Second Suggested Location: " + data[0].location2 + "</p>";
+           str += "<p>Message: " + data[0].note + "</p>";
+           str += "<a href=\"#send_message\" onclick=handler_Reply("+data[0].transactionID+") data-rel=\"dialog\" data-role=\"button\" data-icon\"back\" data-theme=\"a\" data-inline= \"true\"> Reply </a>";
+           $("#message_content").html(str);
+           //outerdiv.getElementsByTagName("div")[0].innerHTML = str;
+           }
+           },
+           error: function(jqHXR, textStatus, errorThrown) {
+           console.log('ajaxerror in get message details:' +textStatus + ' ' + errorThrown);
+           }
+           });
+}
+
+function handler_GetSentMessageDetails(transactionID) {
+    console.log("Get Sent Message Details with transaction ID:" + transactionID);
+    
+    $.ajax({
+           url: "api/messagedetails/" + transactionID,
+           context: document.body,
+           dataType: "json",
+           async: false,
+           success: function(data, textStatus, jqXHR){
+           var outerdiv = document.getElementByID("message_content");
+           var str = "";
+           if(data.length != 0) {
+           str += "<p>To: " + data[0].receiver + "</p>";
+           str += "<p>Date Sent: " + data[0].dateSent + "</p>";
+           str += "<p>Transaction ID: " + data[0].transactionID + "</p>";
+           str += "<p>First Suggested Date: " + data[0].date1 + "</p>";
+           str += "<p>Second Suggested Date: " + data[0].date2 + "</p>";
+           str += "<p>Third Suggested Date: " + data[0].date3 + "</p>";
+           str += "<p>First Suggested Location: " + data[0].location1 + "</p>";
+           str += "<p>Second Suggested Location: " + data[0].location2 + "</p>";
+           str += "<p>Message: " + data[0].note + "</p>";
+           outerdiv.getElementsByTagName("div")[0].innerHTML = str;
+           }
+           },
+           error: function(jqHXR, textStatus, errorThrown) {
+           console.log('ajaxerror in get message details:' +textStatus + ' ' + errorThrown);
+           }
+           });
+}
+
+function handler_Reply(transactionID){
+    // for Cassidy to handle with Send Message Page
+}
 
 function handler_GetItemDetails(itemid) {
     console.log("Get Item Details invoked with:"+ itemid);
@@ -227,7 +356,7 @@ function handler_AddListing(itemidValue) {
         url: "api/addlisting",
         context: document.body,
         type: "POST",
-        data: str,
+        data: {'data': str},
         dataType: "json", 
         async: false,
         success: function(data, textStatus, jqXHR){
