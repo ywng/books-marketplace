@@ -80,7 +80,7 @@ function getUser($alias) {
         $userObj->id = $result['userid'];            
     }
 
-    return userObj;
+    return $userObj;
     //header("Content-type: application/json");
     //echo json_encode($userObj);
 }
