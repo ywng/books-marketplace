@@ -10,10 +10,12 @@ function fetchSearchResults($query) {
     $dbQuery = "SELECT Item.ID as ItemID, Item.Title, Item.Author, Item.Edition, COUNT(1) as NumItemsForSale, MIN(Listing.Price) AS StartingPrice
                 FROM Item
                 INNER JOIN Listing on Listing.ItemID = Item.ID
+                INNER JOIN User on User.ID = Listing.SellerID
                 WHERE Item.Author like '%".$query
                 ."%' OR Item.Title like '%".$query
                 ."%' OR Item.Description like '%".$query
                 ."%' OR Item.ISBN like '%".$query
+                ."%' OR User.Name like '%".$query
                 ."%' GROUP BY Item.ID";
     $dataset = getDBResultsArray($dbQuery, true);
     
