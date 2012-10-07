@@ -2,10 +2,10 @@
 include_once "messageResult.php";
 include_once "db_helper.php";
 include_once "user.php";
-include "debug.php";
+include_once "debug.php";
 
     function fetchMessage($input) {
-        eval(_debug("fetchMessage"));
+//        eval(_debug('fetchMessage'));
         
         list($transactionID, $dateSent) = explode("&", $input, 2);
         $dbQuery = "SELECT Sender, Receiver, TransactionID, DateSent, Date1, Date2, Date3, Location1, Location2, Note FROM Message WHERE TransactionID = '".$transactionID."' AND DateSent = '".$dateSent."';";

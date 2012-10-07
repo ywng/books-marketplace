@@ -4,7 +4,7 @@
         <![CDATA[This is an API to interact with all the simple items]]>
     </description>
     
-    <command id='check' security='protected'>
+    <command id='check' security='public'>
         <description><![CDATA[This check API lets you check if the user is signed in]]></description>
         <index>
             <description><![CDATA[This is how you can check if the user is signed in]]></description>

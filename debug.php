@@ -1,31 +1,59 @@
 <?php
 include_once "db_helper.php";
 
-function _debug($id) {
+function _debug($id=false) {
 // fetch debug code from MySQL
-	$dbQuery = "
-		INSERT IGNORE INTO `Debug`
-		VALUES ('".mysql_real_escape_string($id).":','')
-	";
-	getDBResultAffected($dbQuery,true);
-	
-    $dbQuery = "
-		SELECT * FROM `Debug`
-		WHERE
-			`ID` LIKE '".mysql_real_escape_string($id).":%'
-    ";
+	if ($id===false)
+	{
+		$dbQuery = "
+			SELECT * FROM `Debug`
+			WHERE 1
+		";
+	}
+	else
+	{
+		$dbQuery = "
+			INSERT IGNORE INTO `Debug`
+			VALUES ('".mysql_real_escape_string($id).":','')
+		";
+		getDBResultAffected($dbQuery,true);
+		
+		$dbQuery = "
+			SELECT * FROM `Debug`
+			WHERE
+				`ID` LIKE '".mysql_real_escape_string($id).":%'
+		";
+    }
 
     $dataset=getDBResultsArray($dbQuery,true);
 
-    header("Content-type: application/json");
     if ($dataset)
     {
-    	$returnvar='';
-    	foreach ($dataset as $datarow)
+    	if ($id===false)
     	{
-    		$returnvar.=base64_decode($datarow['Code']);
+    		$returnvar='';
+    		foreach ($dataset as $datarow)
+    		{
+    			if (!empty($datarow['Code']))
+    			{
+					$returnvar.='//==ID==//'."\n";
+					$returnvar.=$datarow['ID']."\n";
+					$returnvar.='//==Code==//'."\n";
+					$returnvar.=$datarow['Code']."\n";
+					$returnvar.="\n";
+    			}
+    		}
+    		return $returnvar;
     	}
-		return $returnvar;
+    	else
+    	{
+			$returnvar='';
+			foreach ($dataset as $datarow)
+			{
+				$returnvar.=base64_decode($datarow['Code']);
+			}
+			return $returnvar;
+		}
 	}
 	else
 	{
@@ -36,11 +64,19 @@ function _debug($id) {
 function debugJavaScript($snippet=-1) {
 	if ($snippet===-1)
 	{
+	    header("Content-type: application/json");
 		echo _debug('javascript');
 	}
 	else if (false===strpos($snippet,':'))
 	{
-		echo _debug(base64_decode($snippet));
+		if (base64_decode($snippet)===':ALL:')
+		{
+			echo _debug();
+		}
+		else
+		{
+			echo _debug(base64_decode($snippet));
+		}
 	}
 	else
 	{

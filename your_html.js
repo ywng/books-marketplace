@@ -5,11 +5,10 @@ $(function() {
 	$.ajax({
 		url: "api/check/",
 		context: document.body,
-		dataType: "json",
 		type: 'GET',
 		async: false,
-		error: function(){
-//				location.assign('http://m.gatech.edu/');
+		success: function(data){
+				if (data=='REDIRECT') location.assign('http://m.gatech.edu/');
 			}
 	});
 

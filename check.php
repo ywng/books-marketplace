@@ -1,6 +1,10 @@
 <?php
+include "user.php";
+
 function check()
 {
-	return json_encode("YAY!");
+	global $_USER;
+	if (!isset($_USER['uid'])) {echo json_encode('REDIRECT');}
+	else {echo json_encode('STAY');}
 }
 ?>
