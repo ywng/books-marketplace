@@ -1,18 +1,21 @@
 <?php
 include_once "db_helper.php";
+include_once "user.php";
 
 function addListing($data) {
+    global $_USER;
     $data = json_decode($data);
 
-    $sellerid = $_USER['uid'];
     if(!isset($_USER['uid'])) {
-        //NOTE: This should be a default id used for testing alone
         //Ideally this code path should never be hit in production
-        $sellerid = 902954691;
+        $GLOBALS["_PLATFORM"]->sandboxHeader('HTTP/1.1 401 Unauthorized');
+        die();
     }
-
+    
+    $userObj = getUser($_USER['uid']);    
+    
     $dbQuery = "INSERT INTO Listing (SellerID, ItemID, CreationDate, ExpirationDate, Price, Quantity, `Condition`, Status)
-                VALUES(".$sellerid
+                VALUES(".$userObj->id
                         .", ".$data->itemid
                         .", NOW(), NOW(), ".$data->price
                         .", ".$data->quantity
