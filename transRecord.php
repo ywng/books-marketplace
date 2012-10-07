@@ -69,17 +69,13 @@ function updateTransRecord($transID,$itemValue){
 	$rating=mysql_real_escape_string($str3);
 	$feedback=mysql_real_escape_string($str4);
 
-
-	$date= date('Y-m-d H:i:s');
-	echo $date;
-
 	$dbQuery = "UPDATE Transaction
-	SET LastModificationDate='%".$date."%', StatusID=3,";
+	SET LastModificationDate=NOW(), StatusID=3,";
 
 	if($BuySell=="Buy")
-	$dbQuery=$dbQuery." SellerRating=".$rating.", SellerFeedback='%".$feedback."%' ";
+	$dbQuery=$dbQuery." SellerRating=".$rating.", SellerFeedback=\"".$feedback."\" ";
 	else 
-	$dbQuery=$dbQuery." BuyerRating=".$rating.", BuyerFeedback='%".$feedback."%' ";
+	$dbQuery=$dbQuery." BuyerRating=".$rating.", BuyerFeedback=\"".$feedback."\" ";
 
 	$dbQuery=$dbQuery."WHERE TransactionID=".$transID;
 
@@ -94,8 +90,8 @@ function updateTransRecord($transID,$itemValue){
           $message="Cancelled by seller!";
 
         $dbQuery = "UPDATE Transaction
-	SET LastModificationDate='%".$date."%', StatusID=1, SellerFeedback='%".$message."%', 
-        BuyerFeedback='%".$message."%' WHERE TransactionID=".$transID;
+	SET LastModificationDate=".$date.", StatusID=1, SellerFeedback=\"".$message."\", 
+        BuyerFeedback=\"".$message."\" WHERE TransactionID=".$transID;
 	echo $dbQuery;
 	
     }
