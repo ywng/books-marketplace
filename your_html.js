@@ -9,7 +9,7 @@ $(function() {
 		type: 'GET',
 		async: false,
 		error: function(){
-				location.assign('http://m.gatech.edu/');
+//				location.assign('http://m.gatech.edu/');
 			}
 	});
 
