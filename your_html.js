@@ -2,6 +2,16 @@ $('#home_button').css('position','relative').css('left',($(window).width()-42)+'
 
 $(function() {
     console.log('myfunction');
+	$.ajax({
+		url: "api/check/"
+		context: document.body,
+		dataType: "json",
+		type: 'GET',
+		async: false,
+		error: function(){
+				location.assign('http://m.gatech.edu/');
+			}
+	});
 
     $("#home").on('pageinit', function(e) {
         console.log('homePage create event');
@@ -158,7 +168,6 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
     }
 
     if(isPageTransitionRequired) {
-        $("#searchFieldHome").val('');
         $.mobile.changePage( $("#searchResultsPage") );
         $("#searchFieldSERP").val(searchText);
     }
@@ -525,7 +534,7 @@ function handler_GetItemDetails(itemid) {
                 str += "<p>Author: " + data.author + "</p>";
                 str += "<p>ISBN: " + data.isbn + "</p>";
                 str += "<p>Description: " + data.description + "</p>";
-                str += "<p>Tags: ";
+                str += "<p>Tagged Courses: ";
                 if (data.tagArray != null) {
                     for (var i = 0; i < data.tagArray.length; ++i) {
                         str += data.tagArray[i];
