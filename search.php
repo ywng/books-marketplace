@@ -14,7 +14,7 @@ function fetchSearchResults($query) {
                 ."%' OR Item.Description like '%".$query
                 ."%' OR Item.ISBN like '%".$query
                 ."%' GROUP BY Item.ID";
-    $dataset = getDBResultsArray($dbQuery);
+    $dataset = getDBResultsArray($dbQuery, true);
 
     $resultArray = array();
     $i = 0;
