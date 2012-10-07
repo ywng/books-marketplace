@@ -31,58 +31,63 @@ $(function() {
 
     }); // end of pageinit event on search results page
 
-$("#inbox").on('pageinit', function(e) {
+  $("#inbox").on('pageinit', function(e) {
                  console.log('inboxPage create event');
-                 var userID = '0';
-                 getMessages(userID);
+                 getMessages();
                  });
-
-  function getMessages(userID){
-  console.log('User ID:' + userID);
+  
+  function getMessages(){
+  console.log('Getting Messages');
   
   $.ajax({
-         url: "api/inboxitems/" + userID,
+         url: "api/inboxitems/",
          context: document.body,
          dataType: "json",
          async: false,
          success: function(data, textStatus, jqXHR){
          console.log("Object returned by php:" + data);
+         var userID = "";
          var str1 = "";
+         str1 += "<li data-role=\"list-divider\" role=\"heading\">Inbox</li>";
          for(var i=0; i < data.length; i++) {
+         userID = data[i].receiverID;
          str1 += "<li data-theme=\"d\">";
-         str1 += "<a href=\"#view_message\" data-rel=\"dialog\" onclick=handler_GetReceivedMessageDetails(" + data[i].transactionID + ")>";
-         str1 += "<h2>From: " + data[i].sender + "</h2>";
+         str1 += "<a href=\"#view_message\" data-rel=\"dialog\" onclick=\"handler_GetReceivedMessageDetails('" + data[i].transactionID + "','" + data[i].dateSent + "')\">";
+         str1 += "<h2>From: " + data[i].senderName + "</h2>";
          str1 += "<p>" + data[i].dateSent + "</p>";
          str1 += "</a></li>";
          }
-
+         
          console.log('inboxMessages:' + str1);
          console.log('userID inside ajax:' + userID);
          $("#inboxMessages").html(str1);
          $("#inboxMessages").listview("refresh");
-  },
+         },
          error: function(jqHXR, textStatus, errorThrown) {
          console.log('ajaxerror in process message request call:' +textStatus + ' ' + errorThrown);
-        }
+         }
          });
-
+  
   $.ajax({
-         url: "api/outboxitems/" + userID,
+         url: "api/outboxitems/",
          context: document.body,
          dataType: "json",
          async: false,
          success: function(data, textStatus, jqXHR){
          console.log("Object returned by php:" + data);
+         var userID = "";
          var str2 = "";
+         str2 += "<li data-role=\"list-divider\" role=\"heading\">Outbox</li>";
          for(var i=0; i < data.length; i++) {
+         userID = data[i].senderID;
          str2 += "<li data-theme=\"d\">";
-         str2 += "<a href=\"#view_message\" data-rel=\"dialog\" onclick=handler_GetSentMessageDetails(" + data[i].transactionID + ")>";
-         str2 += "<h2>To: " + data[i].receiver + "</h2>";
+         str2 += "<a href=\"#view_message\" data-rel=\"dialog\" onclick=\"handler_GetSentMessageDetails('" + data[i].transactionID + "','" + data[i].dateSent + "')\">";
+         str2 += "<h2>To: " + data[i].receiverName + "</h2>";
          str2 += "<p>" + data[i].dateSent + "</p>";
          str2 += "</li>";
          }
-
-         console.log('inboxMessages:' + str2);
+         
+         console.log('outboxMessages:' + str2);
          console.log('userID inside ajax:' + userID);
          $("#outboxMessages").html(str2);
          $("#outboxMessages").listview("refresh");
@@ -91,9 +96,10 @@ $("#inbox").on('pageinit', function(e) {
          console.log('ajaxerror in process message request call:' +textStatus + ' ' + errorThrown);
          }
          });
-
-  }
-
+  
+  } // end getMessages()
+  
+  
 function processSearchRequest(text, isPageTransitionRequired) {
                     console.log('Input Search Query:' + text);
                     
@@ -369,60 +375,30 @@ function processSearchRequest(text, isPageTransitionRequired) {
 
 }); //end of main jquery function invocation
 
-function handler_GetReceivedMessageDetails(transactionID) {
-    console.log("Get Received Message Details with transaction ID:" + transactionID);
+function handler_GetReceivedMessageDetails(transactionID, dateSent) {
+    console.log("Get Received Message Details with transaction ID and date sent:" + transactionID + " " + dateSent);
+    param = transactionID + "&" + dateSent;
     
     $.ajax({
-           url: "api/messagedetails/" + transactionID, // For some reason transactionID is wrong
+           url: "api/messagedetails/" + param,
            context: document.body,
            dataType: "json",
            async: false,
            success: function(data, textStatus, jqXHR){
-           //var outerdiv = document.getElementByID("message_content");
-           var str = ""; 
-           if(data.length != 0) {
-           str += "<p>From: " + data[0].sender + "</p>";
-           str += "<p>Date Sent: " + data[0].dateSent + "</p>";
-           str += "<p>Transaction ID: " + data[0].transactionID + "</p>";
-           str += "<p>First Suggested Date: " + data[0].date1 + "</p>";
-           str += "<p>Second Suggested Date: " + data[0].date2 + "</p>";
-           str += "<p>Third Suggested Date: " + data[0].date3 + "</p>";
-           str += "<p>First Suggested Location: " + data[0].location1 + "</p>";
-           str += "<p>Second Suggested Location: " + data[0].location2 + "</p>";
-           str += "<p>Message: " + data[0].note + "</p>";
-           str += "<a href=\"#send_message\" onclick=handler_Reply("+data[0].transactionID+") data-rel=\"dialog\" data-role=\"button\" data-icon\"back\" data-theme=\"a\" data-inline= \"true\"> Reply </a>";
-           $("#message_content").html(str);
-           //outerdiv.getElementsByTagName("div")[0].innerHTML = str;
-           }
-           },
-           error: function(jqHXR, textStatus, errorThrown) {
-           console.log('ajaxerror in get message details:' +textStatus + ' ' + errorThrown);
-           }
-           });
-}
-
-function handler_GetSentMessageDetails(transactionID) {
-    console.log("Get Sent Message Details with transaction ID:" + transactionID);
-    
-    $.ajax({
-           url: "api/messagedetails/" + transactionID,
-           context: document.body,
-           dataType: "json",
-           async: false,
-           success: function(data, textStatus, jqXHR){
-           var outerdiv = document.getElementByID("message_content");
            var str = "";
            if(data.length != 0) {
-           str += "<p>To: " + data[0].receiver + "</p>";
-           str += "<p>Date Sent: " + data[0].dateSent + "</p>";
-           str += "<p>Transaction ID: " + data[0].transactionID + "</p>";
-           str += "<p>First Suggested Date: " + data[0].date1 + "</p>";
-           str += "<p>Second Suggested Date: " + data[0].date2 + "</p>";
-           str += "<p>Third Suggested Date: " + data[0].date3 + "</p>";
-           str += "<p>First Suggested Location: " + data[0].location1 + "</p>";
-           str += "<p>Second Suggested Location: " + data[0].location2 + "</p>";
-           str += "<p>Message: " + data[0].note + "</p>";
-           outerdiv.getElementsByTagName("div")[0].innerHTML = str;
+           str += "<p><b>From:</b> " + data[0].senderName + "</p>";
+           str += "<p><b>Date Sent:</b> " + data[0].dateSent + "</p>";
+           str += "<p><b>Suggested Dates:</b> </p>";
+           str += "<p>                 " + data[0].date1 + "</p>";
+           str += "<p>                 " + data[0].date2 + "</p>";
+           str += "<p>                 " + data[0].date3 + "</p>";
+           str += "<p><b>Suggested Locations:</b> </p>";
+           str += "<p>                     " + data[0].location1 + "</p>";
+           str += "<p>                     " + data[0].location2 + "</p>";
+           str += "<p><b>Message:</b> " + data[0].note + "</p>";
+           str += "<a href=\"#send_message\" onclick=\"handler_Reply('"+data[0].transactionID+"','" + data[0].senderID + "')\" data-rel=\"dialog\" data-role=\"button\" data-icon\"back\" data-theme=\"a\" data-inline= \"true\"> Reply </a>";
+           $("#message_content").html(str);
            }
            },
            error: function(jqHXR, textStatus, errorThrown) {
@@ -431,7 +407,37 @@ function handler_GetSentMessageDetails(transactionID) {
            });
 }
 
-function handler_Reply(transactionID){
+function handler_GetSentMessageDetails(transactionID, dateSent) {
+    console.log("Get Sent Message Details with transaction ID and date sent:" + transactionID + " " + dateSent);
+    
+    $.ajax({
+           url: "api/messagedetails/" + transactionID + "&" + dateSent,
+           context: document.body,
+           dataType: "json",
+           async: false,
+           success: function(data, textStatus, jqXHR){
+           var str = "";
+           if(data.length != 0) {
+           str += "<p><b>To:</b> " + data[0].receiverName + "</p>";
+           str += "<p><b>Date Sent:</b> " + data[0].dateSent + "</p>";
+           str += "<p><b>Suggested Dates:</b> </p>";
+           str += "<p>                 " + data[0].date1 + "</p>";
+           str += "<p>                 " + data[0].date2 + "</p>";
+           str += "<p>                 " + data[0].date3 + "</p>";
+           str += "<p><b>Suggested Locations:</b> </p>";
+           str += "<p>                     " + data[0].location1 + "</p>";
+           str += "<p>                     " + data[0].location2 + "</p>";
+           str += "<p><b>Message:</b> " + data[0].note + "</p>";
+           $("#message_content").html(str);
+           }
+           },
+           error: function(jqHXR, textStatus, errorThrown) {
+           console.log('ajaxerror in get message details:' +textStatus + ' ' + errorThrown);
+           }
+           });
+}
+
+function handler_Reply(transactionID, receiverID){
     // for Cassidy to handle with Send Message Page
 }
 

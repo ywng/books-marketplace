@@ -2,8 +2,10 @@
 class MessageResult
 {
 	public $transactionID;
-    public $sender;
-    public $receiver;
+    public $senderID;
+    public $senderName;
+    public $receiverID;
+    public $receiverName;
     public $dateSent;
     public $date1;
     public $date2;

@@ -128,20 +128,12 @@
     </div>
     
     <div id="inbox_content" data-role="content">
-        <ul id="message_list" data-role="listview" data-divider-theme="a" data-inset="true">
-            <li data-theme="d">
-                <a href="#view_message" data-rel="dialog">
-                    George B.
-                    <span class="ui-li-count">
-                        unread
-                    </span>
-                </a>
-            </li>
-            <li data-theme="e">
-                <a href="#view_message" data-rel="dialog">
-                    Bobby D.
-                </a>
-            </li>
+        <ul id="inboxMessages" data-role="listview" data-divider-theme="a" data-inset="true">
+        </ul>
+    </div>
+    
+    <div id="outbox_content" data-role="content">
+        <ul id="outboxMessages" data-role="listview" data-divider-theme="a" data-inset="true">
         </ul>
     </div>
     
@@ -158,17 +150,9 @@
     <div data-role='header' data-position='inline' data-theme='e'>
         <h1> </h1>
     </div>
-
+    
     <div id="message_content" data-role="content" data-theme='e'>
-        <p>From: George B.</p>
-        <p>This is where the message from George B. goes.</p>
-        <a href="#send_message" data-rel="dialog" data-role="button" data-icon="back" data-theme='a' data-inline='true'>
-            Reply
-        </a>
-        <a href="#confirm_delete" data-rel="dialog" data-role="button" data-icon="delete" data-theme='a' data-inline='true'>
-            Delete
-        </a>
-    </div>    
+    </div>
 </div>
 
 <!-- Records Page -->
@@ -461,6 +445,7 @@
 <!-- Send Message Dialog Page -->
 <div id="send_message" data-role="page" data-title="Send Message">
     <div data-role='header' data-position='inline' data-theme='e'>
+        <h1></h1>
     </div>
     
     <div id="send_message_content" data-role="content">

@@ -96,6 +96,37 @@
             <action file='transRecord.php'><![CDATA[updateTransRecord($_REST['transRecord'],$_POST['itemValue']);]]></action>
         </put>
     </command>
-
-
+    <command id='inboxitems' security='public'>
+        <description><![CDATA[This API lets you view all messages in a user's inbox]]></description>
+        <index>
+            <description><![CDATA[This is how you can get messages by receiver]]></description>
+            <action file='inbox.php'><![CDATA[fetchInboxMessages();]]></action>
+        </index>
+        <get>
+            <description><![CDATA[This is how you can get messages in a user's inbox]]></description>
+            <action file='inbox.php'><![CDATA[fetchInboxMessages($_REST['inboxitems']);]]></action>
+        </get>
+    </command>
+    <command id='outboxitems' security='public'>
+        <description><![CDATA[This API lets you view all messages in a user's outbox]]></description>
+        <index>
+            <description><![CDATA[This is how you can get messages by receiver]]></description>
+            <action file='inbox.php'><![CDATA[fetchOutboxMessages();]]></action>
+        </index>
+        <get>
+            <description><![CDATA[This is how you can get messages in a user's outbox]]></description>
+            <action file='inbox.php'><![CDATA[fetchOutboxMessages($_REST['outboxitems']);]]></action>
+        </get>
+    </command>
+    <command id='messagedetails' security='public'>
+        <description><![CDATA[This API lets you view the details of a message]]></description>
+        <index>
+            <description><![CDATA[This is how you can get a message by transaction ID]]></description>
+            <action file='message.php'><![CDATA[fetchMessage($_GET['messagedetails']);]]></action>
+        </index>
+        <get>
+            <description><![CDATA[This is how you can get a message by transaction ID]]></description>
+            <action file='message.php'><![CDATA[fetchMessage($_REST['messagedetails']);]]></action>
+        </get>
+    </command>
 </api>
