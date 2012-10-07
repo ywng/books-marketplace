@@ -286,7 +286,8 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
                
                              $("#rateLink").attr("href", "#rate_dialog?transID="+escape(transID)+"&BuySell="+BuySell);
                              $("#cancelLink").attr("href", "#confirm_cancel?transID="+escape(transID)+"&BuySell="+BuySell);
-                          
+                             if(BuySell=="Buy") //diable rate link for the buyer, buyer can rate only after seller confirm the transaction is done
+                                  $("#rateLink").hide();
                              $("#record_content_details").html(str);
                 
             },
