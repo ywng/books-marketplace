@@ -179,35 +179,9 @@
     
     <div id="records_content" data-role="content">
         <ul id="pending_list" data-role="listview" data-divider-theme="a" data-inset="true">
-            <li data-role="list-divider" role="heading">
-                Pending Transactions
-            </li>
-            <li data-theme="d">
-                <a href="#record" data-rel="dialog">
-                    Book4 Purchase
-                </a>
-            </li>
-            <li data-theme="e">
-                <a href="#record" data-rel="dialog">
-                    Book3 Sell
-                </a>
-            </li>
         </ul>
         
         <ul id="past_list" data-role="listview" data-divider-theme="a" data-inset="true">
-            <li data-role="list-divider" role="heading">
-                Past Transactions
-            </li>
-            <li data-theme="d">
-                <a href="#record" data-rel="dialog">
-                    Book2 Sell
-                </a>
-            </li>
-            <li data-theme="e">
-                <a href="#record" data-rel="dialog">
-                    Book1 Purchase
-                </a>
-            </li>
         </ul>
         
         <ul id="for_sale_list" data-role="listview" data-divider-theme="a" data-inset="true">
@@ -252,19 +226,32 @@
 </div>
 
 <!-- Record Dialog Page -->
-<div id="record" data-role="page" data-title="Record">
+<div id="recordDia" data-role="page" data-title="Record">
     <div data-role='header' data-position='inline' data-theme='e'>
         <h1> </h1>
     </div>
     
     <div id="record_content" data-role="content" data-theme='e'>
-        <p> Book4 from George B. for $20</p>
-        <a href="#rate_dialog" data-rel="dialog" data-role="button" data-icon="star" data-theme='a' data-inline='true'>
+        <div id="record_content_details" data-role="content" data-theme='e' > </div>
+        <a id="rateLink" href="#rate_dialog" data-rel="dialog" data-role="button" data-icon="star" data-theme='a' data-inline='true'>
             Rate and Close Transaction
         </a>
-        <a href="#confirm_cancel" data-rel="dialog" data-role="button" data-icon="delete" data-theme='a' data-inline='true'>
+        <a id="cancelLink" href="#confirm_cancel" data-rel="dialog" data-role="button" data-icon="delete" data-theme='a' data-inline='true'>
             Cancel Transaction
         </a>
+    </div>
+</div>
+
+<!-- Past Transaction Record Dialog Page -->
+<div id="pastRecordDia" data-role="page" data-title="Record">
+    <div data-role='header' data-position='inline' data-theme='e'>
+        <h1> </h1>
+    </div>
+    
+    <div id="past_record_content" data-role="content" data-theme='e'>
+        <div id="past_record_content_details" data-role="content" data-theme='e' > </div>
+       
+      
     </div>
 </div>
 
@@ -555,9 +542,25 @@
     </div>
     
     <div id="rate_content" data-role="content" data-theme='e'>
-        <p>After giving a rating, the transaction will be permanently closed.</p>
-        <p>Note: Form elements for users to rate their transactions with other users will go here soon.</p>
-        <a href="#rating_recorded" data-role="button" data-inline="true" data-transition="flip" data-theme='a'>
+        <p>After rating, the transaction will be permanently closed.</p>
+
+       <fieldset data-role="controlgroup">
+	  <legend>Please rate and provide feedback:</legend>
+		
+		 	<input type="radio" name="radio-choice-2" id="radio-choice-21" value="like" checked="checked" />
+		 	<label for="radio-choice-21">Like</label>
+
+		 	<input type="radio" name="radio-choice-2" id="radio-choice-22" value="dislike"  />
+		 	<label for="radio-choice-22">Dislike</label>
+       </fieldset>
+      
+
+        <div data-role="fieldcontain">
+          <label for="textarea"></label>
+	  <textarea name="textarea" id="rateFeedback"></textarea>
+        </div>
+
+        <a id="confirm_rating_link" href="#rating_recorded" onclick="updateTransaction()" data-role="button" data-inline="true" data-transition="flip" data-theme='a'>
             Record Rating
         </a>
     </div>
@@ -592,10 +595,10 @@
     
     <div id="confirm_cancel_content" data-role="content" data-theme='e'>
         <p>Are you sure you wish to cancel this transaction permanently? You will not be able to access this transaction after canceling.</p>
-        <a href="#record" data-role="button" data-inline="true" data-theme='a'>
+        <a href="#records" data-role="button" data-inline="true" data-theme='a'>
             No
         </a>
-        <a href="#transaction_canceled" data-role="button" data-inline="true" data-theme='d'>
+        <a id=transaction_canceled_link href="#transaction_canceled" data-role="button" data-inline="true" data-theme='d'>
             Yes
         </a>
     </div>

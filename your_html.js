@@ -131,6 +131,241 @@ function processSearchRequest(text, isPageTransitionRequired) {
 
 }
 
+//-------------------------------------------record fetching and transacrtion part-----------------------//
+//Bind to the create so the page gets updated with the listing        
+    $("#records").on('pageinit', function(e) {
+               
+               
+                console.log('record page create event');
+                //Remove the old rows
+                $(".pending_list" ).remove();                
+                //JQuery Fetch The New Ones
+                
+                $.ajax({
+                        url: "api/Records/3",
+                        context: document.body,  
+                        dataType: "json",    
+                        type: 'GET',       
+                        async: false,
+             
+			success: function(data, textStatus, jqXHR) {
+			     console.log("Object returned by php:" + data);
+                             //--------------construct pending transaction list----------------------------
+                             var pendinglist_str = "<li data-role=\"list-divider\" role=\"heading\">Pending Transactions</li>"; 
+                             var i=0;
+                             while(data[i]!="Past_Transaction_Record_Starts"){
+	                        pendinglist_str+="<li data-theme=\"d\"> <a href=\"#recordDia?transID="+escape(data[i].transID)+"&BuySell=";
+	                        pendinglist_str+= escape(data[i].BuySell)+"\" data-rel=\"dialog\">";
+	                        pendinglist_str+= "<p>" +"<h7>"+"["+data[i].BuySell+"]  "+ data[i].Title + "</h7>"+"</p>";
+	                        pendinglist_str+= "<h8>Price: " + data[i].Price + "    ";
+	                        if(data[i].BuySell=="Buy")
+	                           pendinglist_str+="Seller:" +data[i].counterpart;
+	                        else
+	                           pendinglist_str+="Buyer:" +data[i].counterpart;
+	                        pendinglist_str+="</h8></a> </li>"      
+                                i++;     
+                            }
+                            i++;
+                            console.log(pendinglist_str);
+			    $("#pending_list").html(pendinglist_str);
+	                    $("#pending_list").listview("refresh");
+
+                            //--------------construct past transaction list----------------------------
+ 			    var pastlist_str = "<li data-role=\"list-divider\" role=\"heading\">Past Transactions</li>"; 
+                            for(;i<data.length;i++){
+			        pastlist_str+="<li data-theme=\"d\"> <a href=\"#pastRecordDia?transID="+escape(data[i].transID)+"&BuySell=";
+	                        pastlist_str+= escape(data[i].BuySell)+"\" data-rel=\"dialog\">";
+	                        pastlist_str+= "<p>" +"<h7>"+"["+data[i].BuySell+"]  "+ data[i].Title + "</h7>"+"</p>";
+	                        pastlist_str+= "<h8>Price: " + data[i].Price + "    ";
+	                        if(data[i].BuySell=="Buy")
+	                           pastlist_str+="Seller:" +data[i].counterpart;
+	                        else
+	                           pastlist_str+="Buyer:" +data[i].counterpart;
+	                        pastlist_str+="</h8></a> </li>"      
+			    }
+                            console.log(pastlist_str);
+			    $("#past_list").html(pastlist_str);
+	                    $("#past_list").listview("refresh");
+
+
+			},
+			error: function(){alert('erroR!!')}
+                         
+                });
+    });
+
+
+
+//---------------------
+    $("#recordDia").on('pageinit', function(e) {
+                console.log('record dialog page create event');
+                var s = $(this).data("url");
+                var S1= s.split("&")[0];
+                var transID= S1.split("=")[1];
+                var S2= s.split("&")[1];
+                var BuySell= S2.split("=")[1];
+                console.log(transID);
+                //alert(BuySell);
+
+                 $.ajax({
+                        url: "api/transRecord/"+transID,
+                        context: document.body,  
+                        dataType: "json",    
+                        type: 'GET',       
+                        async: false,
+			success: function(data, textStatus, jqXHR) {
+			     console.log("Object returned by php:" + data);
+                             var str="";
+                             for(var i=0; i < data.length; i++) { 
+                               
+                                str += "<p>You are "+BuySell.toLowerCase()+"ing: </p>";
+                                str+= "<p></h5>"+data[i].Title + "</h5></p>";
+                                str += "<p>Price: " + data[i].Price + "</p>";
+                                if(BuySell=="Buy")
+                                   str+="<p>Seller:" +data[i].counterpart+"</p>";
+                                else
+                                   str+="<p>Buyer:" +data[i].counterpart+"</p>";
+                                str+="<p>Last modification: "+data[i].LastModifiedDate+"</p>";
+                                str+="</a></li>";
+                             }
+              
+		       
+                             $("#rateLink").attr("href", "#rate_dialog?transID="+escape(transID)+"&BuySell="+BuySell);
+                             $("#cancelLink").attr("href", "#confirm_cancel?transID="+escape(transID)+"&BuySell="+BuySell);
+                          
+                             $("#record_content_details").html(str);
+			    
+			},
+			error: function(){alert('erroR!!')}
+                });
+
+             
+    });
+//--------------------------------------------------
+    $("#pastRecordDia").on('pageinit', function(e) {
+                console.log('Past record dialog page create event');
+                var s = $(this).data("url");
+                var S1= s.split("&")[0];
+                var transID= S1.split("=")[1];
+                var S2= s.split("&")[1];
+                var BuySell= S2.split("=")[1];
+                console.log(transID);
+
+                 $.ajax({
+                        url: "api/transRecord/"+transID,
+                        context: document.body,  
+                        dataType: "json",    
+                        type: 'GET',       
+                        async: false,
+			success: function(data, textStatus, jqXHR) {
+			     console.log("Object returned by php:" + data);
+                             var str="";
+                             for(var i=0; i < data.length; i++) { 
+                                if(BuySell=="Buy")
+                                   str += "<p>You have ever bought: </p>"; 
+                                else
+                                   str += "<p>You have ever sold: </p>"; 
+                                str+= "<p></h5>"+data[i].Title + "</h5></p>";
+                                str += "<p>Price: " + data[i].Price + "</p>";
+                                if(BuySell=="Buy")
+                                   str+="<p>Seller:" +data[i].counterpart+"</p>";
+                                else
+                                   str+="<p>Buyer:" +data[i].counterpart+"</p>";
+                                str+="<p>Last modification: "+data[i].LastModifiedDate+"</p>";
+                                    
+                                str+="<p>Rating on buyer: "+"<b>"+ratingToString(data[i].BuyerRating)+"</b> "+data[i].BuyerFeedback+"</p>";
+                                str+="<p>Rating on seller: "+"<b>"+ratingToString(data[i].SellerRating)+"</b> "+data[i].SellerFeedback+"</p>";
+
+                                str+="</a></li>";
+                             }
+                             $("#past_record_content_details").html(str);
+			    
+			},
+			error: function(){alert('erroR!!')}
+                });
+
+             
+    });
+
+
+//--------------------------------------------------
+    $("#rate_dialog").on('pageinit', function(e) {
+               console.log('rate dialog page create event');
+               var s = $(this).data("url");
+                var S1= s.split("&")[0];
+                var transID= S1.split("=")[1];
+                var S2= s.split("&")[1];
+                var BuySell= S2.split("=")[1];
+                $("#confirm_rating_link").attr("href", "#rating_recorded?transID="+escape(transID)+"&BuySell="+BuySell);
+
+     });
+
+//--------------------------------------------------
+     $("#rating_recorded").on('pageinit', function(e) {
+               console.log('rating recorded page create event');
+                var s = $(this).data("url");
+                var S1= s.split("&")[0];
+                var transID= S1.split("=")[1];
+                var S2= s.split("&")[1];
+                var BuySell= S2.split("=")[1];
+                var S3= s.split("&")[2];
+                var rating= S3.split("=")[1];
+                var S4= s.split("&")[3];
+                var feedback= S4.split("=")[1];
+
+             //   alert(transID+BuySell+rating+feedback);
+             //for updating the db table
+      
+             $.ajax({
+		url: "api/transRecord/"+transID,
+		context: document.body,
+		data: {'itemValue': "notcancel."+BuySell+"."+rating+"."+feedback},
+		headers: {'X-HTTP-Method-Override': 'PUT'},
+		type: 'POST',
+		success: function(data){
+		     console.log(data);
+		}
+  	     });
+              
+
+     });
+//-----------------------------------------------------------
+
+    $("#confirm_cancel").on('pageinit', function(e) {
+                console.log('confirm cancel dialog create event');
+                var s = $(this).data("url");
+                var S1= s.split("&")[0];
+                var transID= S1.split("=")[1];
+                var S2= s.split("&")[1];
+                var BuySell= S2.split("=")[1];
+                $("#transaction_canceled_link").attr("href", "#transaction_canceled="+escape(transID)+"&BuySell="+BuySell);
+
+     });
+//-----------------------------------------------------------
+     $("#transaction_canceled").on('pageinit', function(e) {
+                console.log('transaction canceled page create event');
+                var s = $(this).data("url");
+                var S1= s.split("&")[0];
+                var transID= S1.split("=")[1];
+                var S2= s.split("&")[1];
+                var BuySell= S2.split("=")[1];
+
+	     $.ajax({
+		url: "api/transRecord/"+transID,
+		context: document.body,
+		data: {'itemValue': "cancel."+BuySell},
+		headers: {'X-HTTP-Method-Override': 'PUT'},
+		type: 'POST',
+		success: function(data){
+		     console.log(data);
+		}
+  	     });
+                		
+     });
+//------------------------end of transaction related part-------------------------------------
+
+
+
 
 }); //end of main jquery function invocation
 
@@ -372,6 +607,31 @@ function handler_AddListing(itemidValue) {
    
 } // end of handler for add Listing
  
+
+
+//--------------------------record, transaction related js auxilary function-------------//
+function ratingToString(rating){
+     if(rating==1)
+         return "Like!";
+     if(rating==0)
+         return "Not yet rated!";
+     return "Dislike!";
+}
+
+function updateTransaction(){
+      var likeOption=$("input#radio-choice-21").attr ("checked");
+      var rating;
+      if(likeOption=="checked")
+         rating=1;
+      else
+         rating=-1;
+      var feedback= $('textarea#rateFeedback').val();
+      var url=$("#confirm_rating_link").attr("href");
+      $("#confirm_rating_link").attr("href",url+"&rating="+rating+"&feedback="+escape(feedback));    
+     //alert(rating+feedback.toString());
+}
+//------------------end of record, transaction related js auxilary function-------------//
+
 function simpleIndex(){
     $.ajax({
         url: "api/simple",
