@@ -3,7 +3,7 @@ $('#home_button').css('position','relative').css('left',($(window).width()-42)+'
 $(function() {
     console.log('myfunction');
 	$.ajax({
-		url: "api/check/"
+		url: "api/check/",
 		context: document.body,
 		dataType: "json",
 		type: 'GET',
