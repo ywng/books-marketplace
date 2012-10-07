@@ -4,7 +4,7 @@ include_once "db_helper.php";
 
 function fetchListingDetails($listingid) {
 
-    $dbQuery = "SELECT Item.Title, Item.Edition, Item.Author, User.Name as SellerName, lst.Condition, lst.Price, lst.Quantity
+    $dbQuery = "SELECT Item.Title, Item.Edition, Item.Author, User.ID as SellerID, User.Name as SellerName, lst.Condition, lst.Price, lst.Quantity
                     FROM Listing as lst
                     INNER JOIN User ON lst.SellerID = User.ID
                     INNER JOIN Item ON lst.ItemID = Item.ID
@@ -18,6 +18,7 @@ function fetchListingDetails($listingid) {
         $listingEntityObj->itemedition = $dataset[0]["Edition"];
         $listingEntityObj->itemauthor = $dataset[0]["Author"];
         $listingEntityObj->sellername = $dataset[0]["SellerName"];
+        $listingEntityObj->sellerid = $dataset[0]["SellerID"];
         $listingEntityObj->condition = $dataset[0]["Condition"];
         $listingEntityObj->price = $dataset[0]["Price"];
         $listingEntityObj->quantity = $dataset[0]["Quantity"];

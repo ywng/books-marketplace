@@ -542,7 +542,7 @@ function handler_GetListingDetails(listingid) {
                 outerdiv.getElementsByTagName("div")[0].innerHTML = str;
 
                 outerdiv.getElementsByTagName("a")[0].removeAttribute("onclick");
-                outerdiv.getElementsByTagName("a")[0].setAttribute("onclick", "handler_BuyListing(" + listingid + ")");
+                outerdiv.getElementsByTagName("a")[0].setAttribute("onclick", "handler_BuyListing('" + listingid + "," + data.sellerid + "')");
 
             }  
         },
@@ -551,6 +551,15 @@ function handler_GetListingDetails(listingid) {
         }
     });
 }
+
+// function for cassidy to handle the buy listing call
+function handler_BuyListing(str_listingid_sellerid) {
+    var listingid = str_listingid_sellerid.split(',')[0];
+    var sellerid = str_listingid_sellerid.split(',')[1];
+
+    console.log('listingid:' + listingid + ' sellerid:' + sellerid);
+}
+
 
 function handler_SellItem(itemid) {
     console.log("Sell Item invoked with:"+ itemid);
