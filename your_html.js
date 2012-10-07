@@ -524,7 +524,7 @@ function handler_GetItemDetails(itemid) {
                 str += "<p>Author: " + data.author + "</p>";
                 str += "<p>ISBN: " + data.isbn + "</p>";
                 str += "<p>Description: " + data.description + "</p>";
-                str += "<p>Tagged Courses: ";
+                str += "<p>Tags: ";
                 if (data.tagArray != null) {
                     for (var i = 0; i < data.tagArray.length; ++i) {
                         str += data.tagArray[i];

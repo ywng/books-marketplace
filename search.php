@@ -12,11 +12,13 @@ function fetchSearchResults($query) {
                 FROM Item
                 INNER JOIN Listing on Listing.ItemID = Item.ID
                 INNER JOIN User on User.ID = Listing.SellerID
+                LEFT JOIN Category on Item.ID = Category.ItemID
                 WHERE Item.Author like '%".$query
                 ."%' OR Item.Title like '%".$query
                 ."%' OR Item.Description like '%".$query
                 ."%' OR Item.ISBN like '%".$query
                 ."%' OR User.Name like '%".$query
+                ."%' OR Category.Tag like '%".$query
                 ."%' GROUP BY Item.ID";
 
     $dataset = getDBResultsArray($dbQuery, true);
