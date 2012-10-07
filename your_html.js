@@ -110,10 +110,14 @@ function processSearchRequest(text, isPageTransitionRequired) {
                         async: false,
                         success: function(data, textStatus, jqXHR){
                             console.log("Object returned by php:" + data);
-                            var str = ""; 
+                            var str = "";
+                            if (data.length > 0) {
+                                str += "<li data-role=\"list-divider\" role=\"heading\">Items Available For Sale</li>";
+                            }
+
                             for(var i=0; i < data.length; i++) { 
-                                str += "<li data-theme=\"d\">";
-                                str += "<a href=\"#entity\" onclick=handler_GetItemDetails(" + data[i].itemid + ")>";
+                                str += "<li data-theme=\""+ (i % 2 == 0? "d" : "e" ) +"\">";
+                                str += "<a href=\"#entity\" data-rel=\"dialog\" onclick=handler_GetItemDetails(" + data[i].itemid + ")>";
                                 str += "<h2>" + data[i].title + "</h2>";
                                 str += "<p>" + data[i].edition + " by " + data[i].author + "</p>";
                                 str += "<span class=\"ui-li-count\">" + data[i].numItemsForSale + " items starting $" + data[i].startingPrice + "</span>";
@@ -286,8 +290,10 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
                
                              $("#rateLink").attr("href", "#rate_dialog?transID="+escape(transID)+"&BuySell="+BuySell);
                              $("#cancelLink").attr("href", "#confirm_cancel?transID="+escape(transID)+"&BuySell="+BuySell);
+
                              if(BuySell=="Buy") //diable rate link for the buyer, buyer can rate only after seller confirm the transaction is done
-                                  $("#rateLink").hide();
+                                $("#rateLink").hide();
+ 
                              $("#record_content_details").html(str);
                 
             },
@@ -528,7 +534,7 @@ function handler_GetItemDetails(itemid) {
                 if (data.listingArray != null) {
                     for (var i = 0; i < data.listingArray.length; ++i) {
                         str += "<li data-theme=\""+ (i % 2 == 0? "d" : "e" ) +"\">";
-                        str += "<a href=\"#listing\" onclick=\"handler_GetListingDetails(" + data.listingArray[i].id + ")\">";
+                        str += "<a href=\"#listing\" data-rel=\"dialog\" onclick=\"handler_GetListingDetails(" + data.listingArray[i].id + ")\">";
                         str += "<h2>" + data.listingArray[i].sellername + "</h2>";
                         str += "<p>Item Condition: " + data.listingArray[i].condition + "</p>";
                         str += "</a>";

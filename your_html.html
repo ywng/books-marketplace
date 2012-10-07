@@ -29,7 +29,7 @@
 
 <!-- Page for Search Results -->
 <div data-role="page" id="searchResultsPage">
-    <div data-role='header' data-position='inline' data-theme='d'>
+    <div data-role='header' data-position='inline' data-theme='e'>
         <h1>Home</h1>
         <a href="#" data-icon='add' data-transition="pop">Other</a>
     </div>
@@ -38,7 +38,13 @@
         <input type="search" name="search" id="searchFieldSERP" value=""/>
         <ul data-role="listview" id="searchResults" data-divider-theme="a" data-inset="true"></ul>
         <div id="emptySearchResult"></div>
-        <a href="#create_listing" data-role="button" data-icon="add" data-inline="true" data-theme='a' style="display: none" onclick="handler_SellItem(-1)">Sell new item</a>
+        <a href="#create_listing" data-rel="dialog" data-role="button" data-icon="add" data-inline="true" data-theme='a' style="display: none" onclick="handler_SellItem(-1)">Sell new item</a>
+    </div>
+
+    <div data-role='footer' class="ui-bar" data-position="fixed">
+        <div data-role="controlgroup" data-type="horizontal">
+            <a href="#home" data-role="button" data-icon="home" data-transition="flip" data-direction="reverse">Wrecklist Home</a>
+        </div>
     </div>
 </div>
 
@@ -725,7 +731,7 @@
     
     <div id="entity_content" data-role="content">
         <div></div>
-        <a href="#create_listing" data-role="button" data-icon="add" data-inline="true" data-theme='a'>Sell this item</a>
+        <a href="#create_listing" data-role="button" data-icon="add" data-inline="true" data-theme='a' data-rel="dialog">Sell this item</a>
         <ul data-role="listview" data-divider-theme="a" data-inset="true"></ul>
     </div>
 </div>
