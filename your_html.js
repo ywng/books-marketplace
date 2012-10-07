@@ -204,13 +204,13 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
                             i++;
                             console.log(pendinglist_str);
                 $("#pending_list").html(pendinglist_str);
-                        $("#pending_list").listview("refresh", true);
+                        $("#pending_list").listview("refresh");
 
                             //--------------construct past transaction list----------------------------
                 var pastlist_str = "<li data-role=\"list-divider\" role=\"heading\">Past Transactions</li>"; 
                             for(;i<data.length;i++){
                     pastlist_str+="<li data-theme=\"d\"> <a href=\"#pastRecordDia?transID="+escape(data[i].transID)+"&BuySell=";
-                            pastlist_str+= escape(data[i].BuySell)+"&counterpart="+escape(data[i].counterpartID)+"\" data-rel=\"dialog\">";
+                            pastlist_str+= escape(data[i].BuySell)+"&counterpart="+escape(data[i].counterpart)+"&counterpartID="+escape(data[i].counterpartID)+"\" data-rel=\"dialog\">";
                             pastlist_str+= "<p>" +"<h7>"+"["+data[i].BuySell+"]  "+ data[i].Title + "</h7>"+"</p>";
                             pastlist_str+= "<h8>Price: " + data[i].Price + "    ";
                             if(data[i].BuySell=="Buy")
@@ -221,7 +221,7 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
                 }
                             console.log(pastlist_str);
                 $("#past_list").html(pastlist_str);
-                        $("#past_list").listview("refresh", true);
+                        $("#past_list").listview("refresh");
 
 
             },
@@ -312,7 +312,11 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
                 var transID= S1.split("=")[1];
                 var S2= s.split("&")[1];
                 var BuySell= S2.split("=")[1];
-                console.log(transID);
+                var S3= s.split("&")[2];
+                var counterpart= S3.split("=")[1];
+                var S4= s.split("&")[3];
+                var counterpartID= S4.split("=")[1];
+                //console.log(transID);
 
                  $.ajax({
                         url: "api/transRecord/"+transID,
@@ -331,9 +335,9 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
                                 str+= "<p></h5>"+data[i].Title + "</h5></p>";
                                 str += "<p>Price: " + data[i].Price + "</p>";
                                 if(BuySell=="Buy")
-                                   str+="<p>Seller:" +data[i].counterpart+"</p>";
+                                   str+="<p>Seller:" +decodeURIComponent(counterpart)+"</p>";
                                 else
-                                   str+="<p>Buyer:" +data[i].counterpart+"</p>";
+                                   str+="<p>Buyer:" +decodeURIComponent(counterpart)+"</p>";
                                 str+="<p>Last modification: "+data[i].LastModifiedDate+"</p>";
                                     
                                 str+="<p>Rating on buyer: "+"<b>"+ratingToString(data[i].BuyerRating)+"</b> "+data[i].BuyerFeedback+"</p>";
@@ -341,7 +345,6 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
 
                                 str+="</a></li>";
                              }
-
                              $("#rateLink_buyer").attr("href", "#rate_dialog?transID="+escape(transID)+"&BuySell="+BuySell);
                              //diable rate link for the seller because the seller already rate the buyer in the pending transaction list
                              if(BuySell=="Sell") 
@@ -357,7 +360,6 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
 
              
     });
-
 
 //--------------------------------------------------
     $("#rate_dialog").on('pageinit', function(e) {
