@@ -1,5 +1,6 @@
 <?php
 include_once "db_helper.php";
+include_once "user.php";
 
 class pendingRecord
 {
@@ -15,7 +16,17 @@ class pendingRecord
 
 function fetchRecords($userid) {
     
-    $userid=mysql_real_escape_string($userid);
+    //$userid=mysql_real_escape_string($userid);
+
+    global $_USER;
+
+    if(!isset($_USER['uid'])) {
+        //Ideally this code path should never be hit in production
+        $GLOBALS["_PLATFORM"]->sandboxHeader('HTTP/1.1 401 Unauthorized');
+        die();
+    }
+    
+    $userObj = getUser($_USER['uid']); 
 
 //-------------------------fetch pending transaction record-------------------------
 
@@ -23,7 +34,7 @@ function fetchRecords($userid) {
     $dbQuery = "SELECT list.ID, list.Price, Item.Title, User.Name as BuyerName, User.ID as counterpartID, tran.TransactionID AS transactionID
 FROM Listing as list
 INNER JOIN Transaction as tran ON list.ID = tran.ListingID AND list.SellerID ="
-.$userid.
+.$userObj->id.
 " INNER JOIN Item ON list.ItemID = Item.ID
 INNER JOIN Status ON tran.StatusID = Status.ID AND Status.Name = 'in progress'
 INNER JOIN User ON tran.BuyerID = User.ID";
@@ -50,7 +61,7 @@ INNER JOIN User ON tran.BuyerID = User.ID";
       $dbQuery = "SELECT list.ID,  list.Price, Item.Title, User.Name AS SellerName, User.ID as counterpartID, tran.TransactionID AS transactionID
 FROM Listing AS list 
 INNER JOIN Transaction AS tran ON list.ID = tran.ListingID AND tran.BuyerID ="
-.$userid.
+.$userObj->id.
 " INNER JOIN Item ON list.ItemID = Item.ID
 INNER JOIN Status ON tran.StatusID = Status.ID AND Status.Name = 'in progress'
 INNER JOIN User ON list.SellerID = User.ID";
@@ -78,7 +89,7 @@ INNER JOIN User ON list.SellerID = User.ID";
     $dbQuery = "SELECT list.ID, list.Price, Item.Title, User.Name as BuyerName,  User.ID as counterpartID, tran.TransactionID AS transactionID
 FROM Listing as list
 INNER JOIN Transaction as tran ON list.ID = tran.ListingID AND list.SellerID ="
-.$userid.
+.$userObj->id.
 " INNER JOIN Item ON list.ItemID = Item.ID
 INNER JOIN Status ON tran.StatusID = Status.ID AND Status.Name = 'completed'
 INNER JOIN User ON tran.BuyerID = User.ID";
@@ -102,7 +113,7 @@ INNER JOIN User ON tran.BuyerID = User.ID";
       $dbQuery = "SELECT list.ID,  list.Price, Item.Title, User.Name AS SellerName,  User.ID as counterpartID, tran.TransactionID AS transactionID
 FROM Listing AS list
 INNER JOIN Transaction AS tran ON list.ID = tran.ListingID AND tran.BuyerID ="
-.$userid.
+.$userObj->id.
 " INNER JOIN Item ON list.ItemID = Item.ID
 INNER JOIN Status ON tran.StatusID = Status.ID AND Status.Name = 'completed'
 INNER JOIN User ON list.SellerID = User.ID";

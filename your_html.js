@@ -148,7 +148,7 @@ function processSearchRequest(text, isPageTransitionRequired) {
                 //JQuery Fetch The New Ones
                 
                 $.ajax({
-                        url: "api/Records/3",
+                        url: "api/Records/userid",
                         context: document.body,  
                         dataType: "json",    
                         type: 'GET',       
@@ -161,7 +161,7 @@ function processSearchRequest(text, isPageTransitionRequired) {
                              var i=0;
                              while(data[i]!="Past_Transaction_Record_Starts"){
 	                        pendinglist_str+="<li data-theme=\"d\"> <a href=\"#recordDia?transID="+escape(data[i].transID)+"&BuySell=";
-	                        pendinglist_str+= escape(data[i].BuySell)+"&counterpart="+escape(data[i].counterpartID)+"\" data-rel=\"dialog\">";
+	                        pendinglist_str+= escape(data[i].BuySell)+"&counterpart="+escape(data[i].counterpart)+"&counterpartID="+escape(data[i].counterpartID)+"\" data-rel=\"dialog\">";
 	                        pendinglist_str+= "<p>" +"<h7>"+"["+data[i].BuySell+"]  "+ data[i].Title + "</h7>"+"</p>";
 	                        pendinglist_str+= "<h8>Price: " + data[i].Price + "    ";
 	                        if(data[i].BuySell=="Buy")
@@ -212,6 +212,8 @@ function processSearchRequest(text, isPageTransitionRequired) {
                 var BuySell= S2.split("=")[1];
                 var S3= s.split("&")[2];
                 var counterpart= S3.split("=")[1];
+                var S4= s.split("&")[3];
+                var counterpartID= S4.split("=")[1];
                 var BuyerRating;
                 var SellerRating;
                 //console.log(transID);
@@ -219,7 +221,7 @@ function processSearchRequest(text, isPageTransitionRequired) {
 
                 //get rating of the buyer or seller
                  $.ajax({
-                        url: "api/ratingRecord/"+counterpart,
+                        url: "api/ratingRecord/"+counterpartID,
                         context: document.body,  
                         dataType: "json",    
                         type: 'GET',       
@@ -248,9 +250,9 @@ function processSearchRequest(text, isPageTransitionRequired) {
                                 str+= "<p></h5>"+data[i].Title + "</h5></p>";
                                 str += "<p>Price: " + data[i].Price + "</p>";
                                 if(BuySell=="Buy")
-                                   str+="<p>Seller:" +data[i].counterpart+"</p><p> Rating:"+SellerRating+"</p>";
+                                   str+="<p>Seller:" +decodeURIComponent(counterpart)+"</p><p> Rating:"+SellerRating+"</p>";
                                 else
-                                   str+="<p>Buyer:" +data[i].counterpart+"</p><p> Rating:"+BuyerRating+"</p>";
+                                   str+="<p>Buyer:" +decodeURIComponent(counterpart)+"</p><p> Rating:"+BuyerRating+"</p>";
                                 str+="<p>Last modification: "+data[i].LastModifiedDate+"</p>";
                                 str+="</a></li>";
                              }
@@ -267,6 +269,7 @@ function processSearchRequest(text, isPageTransitionRequired) {
 
              
     });
+
 
 //--------------------------------------------------
     $("#pastRecordDia").on('pageinit', function(e) {
