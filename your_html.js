@@ -131,6 +131,12 @@ function processSearchRequest(text, isPageTransitionRequired) {
                     
                         error: function(jqHXR, textStatus, errorThrown) {
                             console.log('ajaxerror in process search request call:' +textStatus + ' ' + errorThrown);
+                            if(isPageTransitionRequired) {
+                                $.mobile.changePage( $("#searchResultsPage") );
+                            }
+                            $("#searchFieldSERP").val(text);
+                            $("#searchResults").html("");
+                            $("#searchResults").listview("refresh");
                         }
 
                     }); // end of the ajax call
