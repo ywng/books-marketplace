@@ -123,8 +123,8 @@ function processSearchRequest(text, isPageTransitionRequired) {
                             console.log('searchtext inside ajax:' + text);
                             if(isPageTransitionRequired) {
                                 $.mobile.changePage( $("#searchResultsPage") );
+                                $("#searchFieldSERP").val(text);
                             }
-                            $("#searchFieldSERP").val(text);
                             $("#searchResults").html(str);
                             $("#searchResults").listview("refresh");
                         },
@@ -133,8 +133,8 @@ function processSearchRequest(text, isPageTransitionRequired) {
                             console.log('ajaxerror in process search request call:' +textStatus + ' ' + errorThrown);
                             if(isPageTransitionRequired) {
                                 $.mobile.changePage( $("#searchResultsPage") );
+                                $("#searchFieldSERP").val(text);
                             }
-                            $("#searchFieldSERP").val(text);
                             $("#searchResults").html("");
                             $("#searchResults").listview("refresh");
                         }
