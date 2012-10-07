@@ -5,7 +5,7 @@ include_once "db_helper.php";
 
 function fetchItemDetailsAndListings($itemid) {
 
-    $dbQuery = "SELECT Item.Title, Item.Author, Item.Edition
+    $dbQuery = "SELECT Item.Title, Item.Author, Item.Edition, Item.ISBN, Item.Description
                 FROM Item
                 WHERE Item.ID = ".$itemid.";";
 
@@ -17,6 +17,8 @@ function fetchItemDetailsAndListings($itemid) {
         $itemListingsObj->title = $dataset[0]["Title"];
         $itemListingsObj->author = $dataset[0]["Author"];
         $itemListingsObj->edition = $dataset[0]["Edition"];
+        $itemListingsObj->isbn = $dataset[0]["ISBN"];
+        $itemListingsObj->description = $dataset[0]["Description"];
 
         $dbQuery = "SELECT Tag FROM Category WHERE ItemID = ".$itemid.";";
 

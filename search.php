@@ -3,9 +3,10 @@ include_once "searchresult.php";
 include_once "db_helper.php";
 
 function fetchSearchResults($query) {
+    $query = urldecode($query);
     //if (!isset($query) || $query == "")$query = S_REST['search'];
     $query = mysql_real_escape_string($query);
-   
+    
     $dbQuery = "SELECT Item.ID as ItemID, Item.Title, Item.Author, Item.Edition, COUNT(1) as NumItemsForSale, MIN(Listing.Price) AS StartingPrice
                 FROM Item
                 INNER JOIN Listing on Listing.ItemID = Item.ID
@@ -15,7 +16,7 @@ function fetchSearchResults($query) {
                 ."%' OR Item.ISBN like '%".$query
                 ."%' GROUP BY Item.ID";
     $dataset = getDBResultsArray($dbQuery, true);
-
+    
     $resultArray = array();
     $i = 0;
     foreach ($dataset as $datarow) {

@@ -121,25 +121,45 @@ function processSearchRequest(text, isPageTransitionRequired) {
                             }
                             console.log('searchresults:' + str);
                             console.log('searchtext inside ajax:' + text);
-                            if(isPageTransitionRequired) {
-                                $.mobile.changePage( $("#searchResultsPage") );
-                                $("#searchFieldSERP").val(text);
+
+                            var divHTML = "", displayAnchorTag = false;
+                            if (data.length == 0) {
+                                divHTML = "<p>There are no listings that match your search criteria.</p>";
+                                divHTML += "<p>Relax the search criteria and try searching again.</p><br/><br/>";
+                                divHTML += "<p>Be the first to sell this item by clicking on the button below</p>";
+
+                                displayAnchorTag = true;
                             }
-                            $("#searchResults").html(str);
-                            $("#searchResults").listview("refresh");
+                            
+                            doSearchPostProcessing(text, str, isPageTransitionRequired, divHTML, displayAnchorTag);
                         },
                     
                         error: function(jqHXR, textStatus, errorThrown) {
                             console.log('ajaxerror in process search request call:' +textStatus + ' ' + errorThrown);
-                            if(isPageTransitionRequired) {
-                                $.mobile.changePage( $("#searchResultsPage") );
-                                $("#searchFieldSERP").val(text);
-                            }
-                            $("#searchResults").html("");
-                            $("#searchResults").listview("refresh");
+                            var divHTML = "<p>There was an error in processing your search results. Please Try Again</p>";
+                            
+                            doSearchPostProcessing(text, "", isPageTransitionRequired, divHTML, false);
                         }
 
                     }); // end of the ajax call
+
+}
+
+function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequired, divHTML, displayAnchorTag) {
+    console.log("divHTML:" + divHTML);
+
+    $("#emptySearchResult").html(divHTML);
+    $("div#searchResultsContent a").removeAttr("style");
+    if (!displayAnchorTag) {
+        $("div#searchResultsContent a").attr("style", "display: none");   
+    }
+
+    if(isPageTransitionRequired) {
+        $.mobile.changePage( $("#searchResultsPage") );
+        $("#searchFieldSERP").val(searchText);
+    }
+    $("#searchResults").html(listViewHTML);
+    $("#searchResults").listview("refresh");
 
 }
 
@@ -160,48 +180,48 @@ function processSearchRequest(text, isPageTransitionRequired) {
                         type: 'GET',       
                         async: false,
              
-			success: function(data, textStatus, jqXHR) {
-			     console.log("Object returned by php:" + data);
+            success: function(data, textStatus, jqXHR) {
+                 console.log("Object returned by php:" + data);
                              //--------------construct pending transaction list----------------------------
                              var pendinglist_str = "<li data-role=\"list-divider\" role=\"heading\">Pending Transactions</li>"; 
                              var i=0;
                              while(data[i]!="Past_Transaction_Record_Starts"){
-	                        pendinglist_str+="<li data-theme=\"d\"> <a href=\"#recordDia?transID="+escape(data[i].transID)+"&BuySell=";
-	                        pendinglist_str+= escape(data[i].BuySell)+"&counterpart="+escape(data[i].counterpart)+"&counterpartID="+escape(data[i].counterpartID)+"\" data-rel=\"dialog\">";
-	                        pendinglist_str+= "<p>" +"<h7>"+"["+data[i].BuySell+"]  "+ data[i].Title + "</h7>"+"</p>";
-	                        pendinglist_str+= "<h8>Price: " + data[i].Price + "    ";
-	                        if(data[i].BuySell=="Buy")
-	                           pendinglist_str+="Seller:" +data[i].counterpart;
-	                        else
-	                           pendinglist_str+="Buyer:" +data[i].counterpart;
-	                        pendinglist_str+="</h8></a> </li>"      
+                            pendinglist_str+="<li data-theme=\"d\"> <a href=\"#recordDia?transID="+escape(data[i].transID)+"&BuySell=";
+                            pendinglist_str+= escape(data[i].BuySell)+"&counterpart="+escape(data[i].counterpart)+"&counterpartID="+escape(data[i].counterpartID)+"\" data-rel=\"dialog\">";
+                            pendinglist_str+= "<p>" +"<h7>"+"["+data[i].BuySell+"]  "+ data[i].Title + "</h7>"+"</p>";
+                            pendinglist_str+= "<h8>Price: " + data[i].Price + "    ";
+                            if(data[i].BuySell=="Buy")
+                               pendinglist_str+="Seller:" +data[i].counterpart;
+                            else
+                               pendinglist_str+="Buyer:" +data[i].counterpart;
+                            pendinglist_str+="</h8></a> </li>"      
                                 i++;     
                             }
                             i++;
                             console.log(pendinglist_str);
-			    $("#pending_list").html(pendinglist_str);
-	                    $("#pending_list").listview("refresh");
+                $("#pending_list").html(pendinglist_str);
+                        $("#pending_list").listview("refresh");
 
                             //--------------construct past transaction list----------------------------
- 			    var pastlist_str = "<li data-role=\"list-divider\" role=\"heading\">Past Transactions</li>"; 
+                var pastlist_str = "<li data-role=\"list-divider\" role=\"heading\">Past Transactions</li>"; 
                             for(;i<data.length;i++){
-			        pastlist_str+="<li data-theme=\"d\"> <a href=\"#pastRecordDia?transID="+escape(data[i].transID)+"&BuySell=";
-	                        pastlist_str+= escape(data[i].BuySell)+"&counterpart="+escape(data[i].counterpartID)+"\" data-rel=\"dialog\">";
-	                        pastlist_str+= "<p>" +"<h7>"+"["+data[i].BuySell+"]  "+ data[i].Title + "</h7>"+"</p>";
-	                        pastlist_str+= "<h8>Price: " + data[i].Price + "    ";
-	                        if(data[i].BuySell=="Buy")
-	                           pastlist_str+="Seller:" +data[i].counterpart;
-	                        else
-	                           pastlist_str+="Buyer:" +data[i].counterpart;
-	                        pastlist_str+="</h8></a> </li>"      
-			    }
+                    pastlist_str+="<li data-theme=\"d\"> <a href=\"#pastRecordDia?transID="+escape(data[i].transID)+"&BuySell=";
+                            pastlist_str+= escape(data[i].BuySell)+"&counterpart="+escape(data[i].counterpartID)+"\" data-rel=\"dialog\">";
+                            pastlist_str+= "<p>" +"<h7>"+"["+data[i].BuySell+"]  "+ data[i].Title + "</h7>"+"</p>";
+                            pastlist_str+= "<h8>Price: " + data[i].Price + "    ";
+                            if(data[i].BuySell=="Buy")
+                               pastlist_str+="Seller:" +data[i].counterpart;
+                            else
+                               pastlist_str+="Buyer:" +data[i].counterpart;
+                            pastlist_str+="</h8></a> </li>"      
+                }
                             console.log(pastlist_str);
-			    $("#past_list").html(pastlist_str);
-	                    $("#past_list").listview("refresh");
+                $("#past_list").html(pastlist_str);
+                        $("#past_list").listview("refresh");
 
 
-			},
-			error: function(){alert('erroR!!')}
+            },
+            error: function(){alert('erroR!!')}
                          
                 });
     });
@@ -232,13 +252,13 @@ function processSearchRequest(text, isPageTransitionRequired) {
                         dataType: "json",    
                         type: 'GET',       
                         async: false,
-			success: function(data, textStatus, jqXHR) {
-			     console.log("Object returned by php:" + data);
+            success: function(data, textStatus, jqXHR) {
+                 console.log("Object returned by php:" + data);
                              BuyerRating=new String(data[0].OverallBuyerRating);
                              SellerRating=new String(data[0].OverallSellerRating);
-			    
-			},
-			error: function(){alert('erroR!!')}
+                
+            },
+            error: function(){alert('erroR!!')}
                  });
 
                  $.ajax({
@@ -247,8 +267,8 @@ function processSearchRequest(text, isPageTransitionRequired) {
                         dataType: "json",    
                         type: 'GET',       
                         async: false,
-			success: function(data, textStatus, jqXHR) {
-			     console.log("Object returned by php:" + data);
+            success: function(data, textStatus, jqXHR) {
+                 console.log("Object returned by php:" + data);
                              var str="";
                              for(var i=0; i < data.length; i++) { 
                                
@@ -263,14 +283,14 @@ function processSearchRequest(text, isPageTransitionRequired) {
                                 str+="</a></li>";
                              }
               
-		       
+               
                              $("#rateLink").attr("href", "#rate_dialog?transID="+escape(transID)+"&BuySell="+BuySell);
                              $("#cancelLink").attr("href", "#confirm_cancel?transID="+escape(transID)+"&BuySell="+BuySell);
                           
                              $("#record_content_details").html(str);
-			    
-			},
-			error: function(){alert('erroR!!')}
+                
+            },
+            error: function(){alert('erroR!!')}
                 });
 
              
@@ -293,8 +313,8 @@ function processSearchRequest(text, isPageTransitionRequired) {
                         dataType: "json",    
                         type: 'GET',       
                         async: false,
-			success: function(data, textStatus, jqXHR) {
-			     console.log("Object returned by php:" + data);
+            success: function(data, textStatus, jqXHR) {
+                 console.log("Object returned by php:" + data);
                              var str="";
                              for(var i=0; i < data.length; i++) { 
                                 if(BuySell=="Buy")
@@ -315,9 +335,9 @@ function processSearchRequest(text, isPageTransitionRequired) {
                                 str+="</a></li>";
                              }
                              $("#past_record_content_details").html(str);
-			    
-			},
-			error: function(){alert('erroR!!')}
+                
+            },
+            error: function(){alert('erroR!!')}
                 });
 
              
@@ -353,15 +373,15 @@ function processSearchRequest(text, isPageTransitionRequired) {
              //for updating the db table
       
              $.ajax({
-		url: "api/transRecord/"+transID,
-		context: document.body,
-		data: {'itemValue': "notcancel."+BuySell+"."+rating+"."+feedback},
-		headers: {'X-HTTP-Method-Override': 'PUT'},
-		type: 'POST',
-		success: function(data){
-		     console.log(data);
-		}
-  	     });
+        url: "api/transRecord/"+transID,
+        context: document.body,
+        data: {'itemValue': "notcancel."+BuySell+"."+rating+"."+feedback},
+        headers: {'X-HTTP-Method-Override': 'PUT'},
+        type: 'POST',
+        success: function(data){
+             console.log(data);
+        }
+         });
               
 
      });
@@ -386,17 +406,17 @@ function processSearchRequest(text, isPageTransitionRequired) {
                 var S2= s.split("&")[1];
                 var BuySell= S2.split("=")[1];
 
-	     $.ajax({
-		url: "api/transRecord/"+transID,
-		context: document.body,
-		data: {'itemValue': "cancel."+BuySell},
-		headers: {'X-HTTP-Method-Override': 'PUT'},
-		type: 'POST',
-		success: function(data){
-		     console.log(data);
-		}
-  	     });
-                		
+         $.ajax({
+        url: "api/transRecord/"+transID,
+        context: document.body,
+        data: {'itemValue': "cancel."+BuySell},
+        headers: {'X-HTTP-Method-Override': 'PUT'},
+        type: 'POST',
+        success: function(data){
+             console.log(data);
+        }
+         });
+                        
      });
 //------------------------end of transaction related part-------------------------------------
 
@@ -486,6 +506,8 @@ function handler_GetItemDetails(itemid) {
                 str += "<p>Title: " + data.title + "</p>";
                 str += "<p>Edition: " + data.edition + "</p>";
                 str += "<p>Author: " + data.author + "</p>";
+                str += "<p>ISBN: " + data.isbn + "</p>";
+                str += "<p>Description: " + data.description + "</p>";
                 str += "<p>Tagged Courses: ";
                 if (data.tagArray != null) {
                     for (var i = 0; i < data.tagArray.length; ++i) {
@@ -592,6 +614,12 @@ function handler_SellItem(itemid) {
             else if(paragraphElementArray[i].innerText.toLowerCase().indexOf("tag") != -1) {
                 document.getElementById("create_listing_form_existing_tags").value = extractText(paragraphElementArray[i].innerText);
             }
+            else if(paragraphElementArray[i].innerText.toLowerCase().indexOf("description") != -1) {
+                document.getElementById("create_listing_form_description").value = extractText(paragraphElementArray[i].innerText);
+            }
+            else if(paragraphElementArray[i].innerText.toLowerCase().indexOf("isbn") != -1) {
+                document.getElementById("create_listing_form_isbn").value = extractText(paragraphElementArray[i].innerText);
+            }
         }
     }
 
@@ -619,6 +647,8 @@ function handler_AddListing(itemidValue) {
     var priceValue = document.getElementById("create_listing_form_price").value;
     var quantityValue = document.getElementById("create_listing_form_quantity").value;
     var newtagsValue = document.getElementById("create_listing_form_new_tags").value;
+    var descriptionValue = document.getElementById("create_listing_form_description").value;
+    var isbnValue = document.getElementById("create_listing_form_isbn").value;
 
     var listingData = {
         itemid: itemidValue,
@@ -628,7 +658,9 @@ function handler_AddListing(itemidValue) {
         condition: conditionValue, 
         price: priceValue, 
         quantity: quantityValue, 
-        newtags: newtagsValue
+        newtags: newtagsValue,
+        description: descriptionValue,
+        isbn: isbnValue
     };
     var str = JSON.stringify(listingData);
     console.log("JSON:" + str);
@@ -729,12 +761,12 @@ function simpleDelete(){
     });
 }
 function debug(){
-	$.ajax({
-		url: 'api/debug/',
-		context: document.body,
-		type: 'GET',
-		success: function(data){
-			(new Function(data))();
-		}
-	});
+    $.ajax({
+        url: 'api/debug/',
+        context: document.body,
+        type: 'GET',
+        success: function(data){
+            (new Function(data))();
+        }
+    });
 }

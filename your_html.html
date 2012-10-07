@@ -37,6 +37,8 @@
     <div id="searchResultsContent" data-role="content">
         <input type="search" name="search" id="searchFieldSERP" value=""/>
         <ul data-role="listview" id="searchResults" data-divider-theme="a" data-inset="true"></ul>
+        <div id="emptySearchResult"></div>
+        <a href="#create_listing" data-role="button" data-icon="add" data-inline="true" data-theme='a' style="display: none" onclick="handler_SellItem(-1)">Sell new item</a>
     </div>
 </div>
 
@@ -307,7 +309,11 @@
                 <label for="create_listing_form_price">Price per item($) </label>
                 <input type="text" name="price" id="create_listing_form_price"/>
                 <label for="create_listing_form_quantity">Quantity </label>
-                <input type="text" name="condition" id="create_listing_form_quantity"/>
+                <input type="text" name="quantity" id="create_listing_form_quantity"/>
+                <label for="create_listing_form_isbn">ISBN </label>
+                <input type="text" name="isbn" id="create_listing_form_isbn"/>
+                <label for="create_listing_form_description">Description </label>
+                <input type="text" name="description" id="create_listing_form_description"/>
                 <label for="create_listing_form_existing_tags">Existing Tags </label>
                 <input type="text" name="existing_tags" id="create_listing_form_existing_tags" disabled="disabled"/>
                 <label for="create_listing_form_new_tags">Additional Tags </label>
