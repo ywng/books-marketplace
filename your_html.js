@@ -341,6 +341,14 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
 
                                 str+="</a></li>";
                              }
+
+                             $("#rateLink_buyer").attr("href", "#rate_dialog?transID="+escape(transID)+"&BuySell="+BuySell);
+                             //diable rate link for the seller because the seller already rate the buyer in the pending transaction list
+                             if(BuySell=="Sell") 
+                                $("#rateLink_buyer").hide();
+                             if(data[i-1].SellerRating!=0)
+                                $("#rateLink_buyer").hide();
+
                              $("#past_record_content_details").html(str);
                 
             },
