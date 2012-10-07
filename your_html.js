@@ -61,7 +61,7 @@ $(function() {
          console.log('inboxMessages:' + str1);
          console.log('userID inside ajax:' + userID);
          $("#inboxMessages").html(str1);
-         $("#inboxMessages").listview("refresh", true);
+         $("#inboxMessages").listview("refresh");
          },
          error: function(jqHXR, textStatus, errorThrown) {
          console.log('ajaxerror in process message request call:' +textStatus + ' ' + errorThrown);
@@ -90,7 +90,7 @@ $(function() {
          console.log('outboxMessages:' + str2);
          console.log('userID inside ajax:' + userID);
          $("#outboxMessages").html(str2);
-         $("#outboxMessages").listview("refresh", true);
+         $("#outboxMessages").listview("refresh");
          },
          error: function(jqHXR, textStatus, errorThrown) {
          console.log('ajaxerror in process message request call:' +textStatus + ' ' + errorThrown);
@@ -163,7 +163,7 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
         $("#searchFieldSERP").val(searchText);
     }
     $("#searchResults").html(listViewHTML);
-    $("#searchResults").listview("refresh", true);
+    $("#searchResults").listview("refresh");
 
 }
 
@@ -204,7 +204,7 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
                             i++;
                             console.log(pendinglist_str);
                 $("#pending_list").html(pendinglist_str);
-                        $("#pending_list").listview("refresh", true);
+                        $("#pending_list").listview("refresh");
 
                             //--------------construct past transaction list----------------------------
                 var pastlist_str = "<li data-role=\"list-divider\" role=\"heading\">Past Transactions</li>"; 
@@ -221,7 +221,7 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
                 }
                             console.log(pastlist_str);
                 $("#past_list").html(pastlist_str);
-                        $("#past_list").listview("refresh", true);
+                        $("#past_list").listview("refresh");
 
 
             },
@@ -544,8 +544,7 @@ function handler_GetItemDetails(itemid) {
                     }
                 }
                 
-                $("#entity_content ul").html(str);
-                $("#entity_content ul").listview("refresh", true);
+                outerdiv.getElementsByTagName("ul")[0].innerHTML = str;
             }  
         },
         error: function(jqHXR, textStatus, errorThrown) {
