@@ -9,6 +9,7 @@ class pendingRecord
 	public $Price;
 	public $Title;
 	public $counterpart;
+        public $counterpartID;
 
 }
 
@@ -19,7 +20,7 @@ function fetchRecords($userid) {
 //-------------------------fetch pending transaction record-------------------------
 
 //fetch pending sale transaction
-    $dbQuery = "SELECT list.ID, list.Price, Item.Title, User.Name as BuyerName, tran.TransactionID AS transactionID
+    $dbQuery = "SELECT list.ID, list.Price, Item.Title, User.Name as BuyerName, User.ID as counterpartID, tran.TransactionID AS transactionID
 FROM Listing as list
 INNER JOIN Transaction as tran ON list.ID = tran.ListingID AND list.SellerID ="
 .$userid.
@@ -39,14 +40,15 @@ INNER JOIN User ON tran.BuyerID = User.ID";
        $pendingRecord->Price = $datarow["Price"];
        $pendingRecord->Title = $datarow["Title"];
        $pendingRecord->counterpart = $datarow["BuyerName"];
+       $pendingRecord->counterpartID = $datarow["counterpartID"];
    
       $resultArray[$i] = $pendingRecord;
         $i++;
    }
 
 //fetch pending buy transaction
-      $dbQuery = "SELECT list.ID,  list.Price, Item.Title, User.Name AS SellerName, tran.TransactionID AS transactionID
-FROM Listing AS list
+      $dbQuery = "SELECT list.ID,  list.Price, Item.Title, User.Name AS SellerName, User.ID as counterpartID, tran.TransactionID AS transactionID
+FROM Listing AS list 
 INNER JOIN Transaction AS tran ON list.ID = tran.ListingID AND tran.BuyerID ="
 .$userid.
 " INNER JOIN Item ON list.ItemID = Item.ID
@@ -64,7 +66,8 @@ INNER JOIN User ON list.SellerID = User.ID";
        $pendingRecord->Price = $datarow["Price"];
        $pendingRecord->Title = $datarow["Title"];
        $pendingRecord->counterpart = $datarow["SellerName"];
-   
+       $pendingRecord->counterpartID = $datarow["counterpartID"];
+
       $resultArray[$i] = $pendingRecord;
         $i++;
    }
@@ -72,7 +75,7 @@ INNER JOIN User ON list.SellerID = User.ID";
 //-------------------------fetch past transaction record-------------------------
      $resultArray[$i] ="Past_Transaction_Record_Starts";
      $i++;
-    $dbQuery = "SELECT list.ID, list.Price, Item.Title, User.Name as BuyerName, tran.TransactionID AS transactionID
+    $dbQuery = "SELECT list.ID, list.Price, Item.Title, User.Name as BuyerName,  User.ID as counterpartID, tran.TransactionID AS transactionID
 FROM Listing as list
 INNER JOIN Transaction as tran ON list.ID = tran.ListingID AND list.SellerID ="
 .$userid.
@@ -90,12 +93,13 @@ INNER JOIN User ON tran.BuyerID = User.ID";
        $pendingRecord->Price = $datarow["Price"];
        $pendingRecord->Title = $datarow["Title"];
        $pendingRecord->counterpart = $datarow["BuyerName"];
-   
+       $pendingRecord->counterpartID = $datarow["counterpartID"];
+
       $resultArray[$i] = $pendingRecord;
         $i++;
    }
 
-      $dbQuery = "SELECT list.ID,  list.Price, Item.Title, User.Name AS SellerName, tran.TransactionID AS transactionID
+      $dbQuery = "SELECT list.ID,  list.Price, Item.Title, User.Name AS SellerName,  User.ID as counterpartID, tran.TransactionID AS transactionID
 FROM Listing AS list
 INNER JOIN Transaction AS tran ON list.ID = tran.ListingID AND tran.BuyerID ="
 .$userid.
@@ -114,7 +118,8 @@ INNER JOIN User ON list.SellerID = User.ID";
        $pendingRecord->Price = $datarow["Price"];
        $pendingRecord->Title = $datarow["Title"];
        $pendingRecord->counterpart = $datarow["SellerName"];
-   
+       $pendingRecord->counterpartID = $datarow["counterpartID"];
+
       $resultArray[$i] = $pendingRecord;
         $i++;
    }

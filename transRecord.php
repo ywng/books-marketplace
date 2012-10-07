@@ -1,6 +1,7 @@
 <?php
 include_once "db_helper.php";
 
+
 class transRecord
 {
         public $transID;
@@ -13,7 +14,7 @@ class transRecord
         public $SellerRating;
         public $BuyerFeedback;
         public $SellerFeedback;
-
+        
 }
 
 function fetchTransRecords($transID) {

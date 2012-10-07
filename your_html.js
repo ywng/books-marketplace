@@ -161,7 +161,7 @@ function processSearchRequest(text, isPageTransitionRequired) {
                              var i=0;
                              while(data[i]!="Past_Transaction_Record_Starts"){
 	                        pendinglist_str+="<li data-theme=\"d\"> <a href=\"#recordDia?transID="+escape(data[i].transID)+"&BuySell=";
-	                        pendinglist_str+= escape(data[i].BuySell)+"\" data-rel=\"dialog\">";
+	                        pendinglist_str+= escape(data[i].BuySell)+"&counterpart="+escape(data[i].counterpartID)+"\" data-rel=\"dialog\">";
 	                        pendinglist_str+= "<p>" +"<h7>"+"["+data[i].BuySell+"]  "+ data[i].Title + "</h7>"+"</p>";
 	                        pendinglist_str+= "<h8>Price: " + data[i].Price + "    ";
 	                        if(data[i].BuySell=="Buy")
@@ -180,7 +180,7 @@ function processSearchRequest(text, isPageTransitionRequired) {
  			    var pastlist_str = "<li data-role=\"list-divider\" role=\"heading\">Past Transactions</li>"; 
                             for(;i<data.length;i++){
 			        pastlist_str+="<li data-theme=\"d\"> <a href=\"#pastRecordDia?transID="+escape(data[i].transID)+"&BuySell=";
-	                        pastlist_str+= escape(data[i].BuySell)+"\" data-rel=\"dialog\">";
+	                        pastlist_str+= escape(data[i].BuySell)+"&counterpart="+escape(data[i].counterpartID)+"\" data-rel=\"dialog\">";
 	                        pastlist_str+= "<p>" +"<h7>"+"["+data[i].BuySell+"]  "+ data[i].Title + "</h7>"+"</p>";
 	                        pastlist_str+= "<h8>Price: " + data[i].Price + "    ";
 	                        if(data[i].BuySell=="Buy")
@@ -210,8 +210,28 @@ function processSearchRequest(text, isPageTransitionRequired) {
                 var transID= S1.split("=")[1];
                 var S2= s.split("&")[1];
                 var BuySell= S2.split("=")[1];
-                console.log(transID);
+                var S3= s.split("&")[2];
+                var counterpart= S3.split("=")[1];
+                var BuyerRating;
+                var SellerRating;
+                //console.log(transID);
                 //alert(BuySell);
+
+                //get rating of the buyer or seller
+                 $.ajax({
+                        url: "api/ratingRecord/"+counterpart,
+                        context: document.body,  
+                        dataType: "json",    
+                        type: 'GET',       
+                        async: false,
+			success: function(data, textStatus, jqXHR) {
+			     console.log("Object returned by php:" + data);
+                             BuyerRating=new String(data[0].OverallBuyerRating);
+                             SellerRating=new String(data[0].OverallSellerRating);
+			    
+			},
+			error: function(){alert('erroR!!')}
+                 });
 
                  $.ajax({
                         url: "api/transRecord/"+transID,
@@ -228,9 +248,9 @@ function processSearchRequest(text, isPageTransitionRequired) {
                                 str+= "<p></h5>"+data[i].Title + "</h5></p>";
                                 str += "<p>Price: " + data[i].Price + "</p>";
                                 if(BuySell=="Buy")
-                                   str+="<p>Seller:" +data[i].counterpart+"</p>";
+                                   str+="<p>Seller:" +data[i].counterpart+"</p><p> Rating:"+SellerRating+"</p>";
                                 else
-                                   str+="<p>Buyer:" +data[i].counterpart+"</p>";
+                                   str+="<p>Buyer:" +data[i].counterpart+"</p><p> Rating:"+BuyerRating+"</p>";
                                 str+="<p>Last modification: "+data[i].LastModifiedDate+"</p>";
                                 str+="</a></li>";
                              }
@@ -247,6 +267,7 @@ function processSearchRequest(text, isPageTransitionRequired) {
 
              
     });
+
 //--------------------------------------------------
     $("#pastRecordDia").on('pageinit', function(e) {
                 console.log('Past record dialog page create event');

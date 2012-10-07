@@ -96,6 +96,13 @@
             <action file='transRecord.php'><![CDATA[updateTransRecord($_REST['transRecord'],$_POST['itemValue']);]]></action>
         </put>
     </command>
+    <command id='ratingRecord' security='public'>
+        <description><![CDATA[This lets you get the rating record of a user]]></description>
+        <get>
+            <description><![CDATA[This is how you can get both the BuyerRating and SellerRating a user]]></description>
+            <action file='ratingRecord.php'><![CDATA[fetchRating($_REST['ratingRecord']);]]></action>
+        </get>
+    </command>
     <command id='inboxitems' security='public'>
         <description><![CDATA[This API lets you view all messages in a user's inbox]]></description>
         <index>
