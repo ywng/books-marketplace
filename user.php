@@ -84,4 +84,28 @@ function getUser($alias) {
     //header("Content-type: application/json");
     //echo json_encode($userObj);
 }
+                           function getUserFromID($id) {
+                           $userObj = new User();
+                           $dbQuery = "SELECT Id, Name, AliasUID, Email, Level, Major FROM User WHERE Id = '".$id."';";
+                           
+                           $dataset = getDBResultsArray($dbQuery, true);
+                           if(count($dataset) > 0) {
+                           $userObj->id = $dataset[0]["Id"];
+                           $userObj->name = $dataset[0]["Name"];
+                           $userObj->aliasuid = $dataset[0]["AliasUID"];
+                           $userObj->email = $dataset[0]["Email"];
+                           $userObj->level = $dataset[0]["Level"];
+                           $userObj->major = $dataset[0]["Major"];
+                           }
+                           else{
+                           $userObj->id = "Unknown";
+                           $userObj->name = "Unknown";
+                           $userObj->aliasuid = "Unknown";
+                           $userObj->email = "Unknown";
+                           $userObj->level = "Unknown";
+                           $userObj->major = "Unknown";
+                           }
+                           
+                           return $userObj;
+                           }
 ?>
