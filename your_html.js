@@ -158,6 +158,7 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
     }
 
     if(isPageTransitionRequired) {
+        $("#searchFieldHome").val('');
         $.mobile.changePage( $("#searchResultsPage") );
         $("#searchFieldSERP").val(searchText);
     }
