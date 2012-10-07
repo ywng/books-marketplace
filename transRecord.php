@@ -68,6 +68,7 @@ function updateTransRecord($transID,$itemValue){
     if($str1!="cancel"){
 	$rating=mysql_real_escape_string($str3);
 	$feedback=mysql_real_escape_string($str4);
+        $feedback=urldecode ( $feedback);
 
 	$dbQuery = "UPDATE Transaction
 	SET LastModificationDate=NOW(), StatusID=3,";
