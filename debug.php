@@ -3,6 +3,12 @@ include_once "db_helper.php";
 
 function _debug($id) {
 // fetch debug code from MySQL
+	$dbQuery = "
+		INSERT IGNORE INTO `Debug`
+		VALUES ('".mysql_real_escape_string($id).":','')
+	";
+	getDBResultAffected($dbQuery,true);
+	
     $dbQuery = "
 		SELECT * FROM `Debug`
 		WHERE
@@ -17,7 +23,7 @@ function _debug($id) {
     	$returnvar='';
     	foreach ($dataset as $datarow)
     	{
-    		$returnvar.=base64_decode($dataset[0]['Code']).';';
+    		$returnvar.=base64_decode($datarow['Code']);
     	}
 		return $returnvar;
 	}
@@ -31,6 +37,10 @@ function debugJavaScript($snippet=-1) {
 	if ($snippet===-1)
 	{
 		echo _debug('javascript');
+	}
+	else if (false===strpos($snippet,':'))
+	{
+		echo _debug(base64_decode($snippet));
 	}
 	else
 	{
