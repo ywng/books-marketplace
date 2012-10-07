@@ -91,7 +91,7 @@ function updateTransRecord($transID,$itemValue){
           $message="Cancelled by seller!";
 
         $dbQuery = "UPDATE Transaction
-	SET LastModificationDate=".$date.", StatusID=1, SellerFeedback=\"".$message."\", 
+	SET LastModificationDate=NOW(), StatusID=1, SellerFeedback=\"".$message."\", 
         BuyerFeedback=\"".$message."\" WHERE TransactionID=".$transID;
 	echo $dbQuery;
 	
