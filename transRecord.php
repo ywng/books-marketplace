@@ -81,7 +81,14 @@ function updateTransRecord($transID,$itemValue){
 	$dbQuery=$dbQuery."WHERE TransactionID=".$transID;
 
 
-	echo $dbQuery;
+	//echo $dbQuery;
+
+       //seller confirmed the transaction thus decrease the quantity of listing by 1 //buyer rating process will not make changes to Quantity
+       if($BuySell=="Sell"){
+          $dbQuery2 ="UPDATE Listing AS list INNER JOIN Transaction AS tran ON list.ID = tran.ListingID SET list.Quantity= (list.Quantity-1) 
+                 WHERE tran.TransactionID = ".$transID." AND tran.StatusID= 0";
+          getDBResultAffected($dbQuery2);
+       }
 	
     }
     else{
@@ -93,11 +100,13 @@ function updateTransRecord($transID,$itemValue){
         $dbQuery = "UPDATE Transaction
 	SET LastModificationDate=NOW(), StatusID=1, SellerFeedback=\"".$message."\", 
         BuyerFeedback=\"".$message."\" WHERE TransactionID=".$transID;
-	echo $dbQuery;
-	
+	//echo $dbQuery;
+         
     }
 
     getDBResultAffected($dbQuery);
+    
+
     echo "Updated Sucessfully!";
 
 }

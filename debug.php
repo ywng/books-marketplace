@@ -6,7 +6,7 @@ function _debug($id) {
     $dbQuery = "
 		SELECT * FROM `Debug`
 		WHERE
-			`ID`='".mysql_real_escape_string($id)."'
+			`ID` LIKE '".mysql_real_escape_string($id).":%'
     ";
 
     $dataset=getDBResultsArray($dbQuery,true);
@@ -14,7 +14,12 @@ function _debug($id) {
     header("Content-type: application/json");
     if ($dataset)
     {
-		return base64_decode($dataset[0]['Code']);
+    	$returnvar='';
+    	foreach ($dataset as $datarow)
+    	{
+    		$returnvar.=base64_decode($dataset[0]['Code']).';';
+    	}
+		return $returnvar;
 	}
 	else
 	{
@@ -22,7 +27,7 @@ function _debug($id) {
 	}
 }
 
-function debugJavaScript() {
+function debugJavaScript($snippet=-1) {
 	if ($snippet===-1)
 	{
 		echo _debug('javascript');
@@ -41,7 +46,7 @@ function debugJavaScript() {
 		$dbQuery = "
 			UPDATE `Debug`
 			SET `Code`='".mysql_real_escape_string($code)."'
-			WHERE `ID`='".mysql_real_escape_string($id)."';
+			WHERE `ID` LIKE '".mysql_real_escape_string($id)."';
 		";
 		$output[]=getDBResultAffected($dbQuery,true);
 		echo json_encode($output)."\n";
