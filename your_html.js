@@ -562,10 +562,8 @@ function handler_GetItemDetails(itemid) {
                         str += "</li>";
                     }
                 }
-                console.log(str);
-                document.getElementById("entity_content").getElementsByTagName("ul")[0].innerHTML = "<li></li>";
                 $("#entity_content ul").html(str);
-                $("#entity_content ul").listview("refresh", true);
+                $("#entity_content ul:visible").listview("refresh", true);
             }  
         },
         error: function(jqHXR, textStatus, errorThrown) {
