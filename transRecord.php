@@ -64,6 +64,9 @@ function updateTransRecord($transID,$itemValue){
     
     $BuySell=$str2;
     
+    $numRowsAffected = 0;
+
+    $execDBQuery = true;
 
     if($str1!="cancel"){
 	$rating=mysql_real_escape_string($str3);
@@ -80,16 +83,24 @@ function updateTransRecord($transID,$itemValue){
 
 	$dbQuery=$dbQuery."WHERE TransactionID=".$transID;
 
-
 	//echo $dbQuery;
 
        //seller confirmed the transaction thus decrease the quantity of listing by 1 //buyer rating process will not make changes to Quantity
        if($BuySell=="Sell"){
           $dbQuery2 ="UPDATE Listing AS list INNER JOIN Transaction AS tran ON list.ID = tran.ListingID SET list.Quantity= (list.Quantity-1) 
-                 WHERE tran.TransactionID = ".$transID." AND tran.StatusID= 0";
-          getDBResultAffected($dbQuery2);
-       }
-	
+                 WHERE tran.TransactionID = ".$transID." AND tran.StatusID= 0 AND list.Quantity > 0";
+          $numRowsAffected += intval(getDBResultAffected($dbQuery2));
+
+            if ($numRowsAffected > 0) {
+                
+                $dbQuery2 ="UPDATE Listing AS list INNER JOIN Transaction AS tran ON list.ID = tran.ListingID SET list.Status= 3 
+                            WHERE tran.TransactionID = ".$transID." AND tran.StatusID= 0 AND list.Quantity = 0";
+                getDBResultAffected($dbQuery2);
+            }
+            else {
+                $execDBQuery = false;
+            }
+        }
     }
     else{
         if(BuySell=="Buy")
@@ -104,10 +115,11 @@ function updateTransRecord($transID,$itemValue){
          
     }
 
-    getDBResultAffected($dbQuery);
-    
+    if($execDBQuery) {
+        $numRowsAffected += intval(getDBResultAffected($dbQuery));
+    } 
 
-    echo "Updated Sucessfully!";
+    echo $numRowsAffected." Total Rows accross All Tables were Updated Sucessfully!";
 
 }
 
