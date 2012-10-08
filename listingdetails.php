@@ -1,6 +1,7 @@
 <?php
 include_once "listingentity.php";
 include_once "db_helper.php";
+include_once "ratingRecord.php";
 
 function fetchListingDetails($listingid) {
 
@@ -23,6 +24,7 @@ function fetchListingDetails($listingid) {
         $listingEntityObj->price = $dataset[0]["Price"];
         $listingEntityObj->quantity = $dataset[0]["Quantity"];
 
+        $listingEntityObj->sellerrating = getUserRatingObject($listingEntityObj->sellerid)->OverallSellerRating;
     }
 
     header("Content-type: application/json");

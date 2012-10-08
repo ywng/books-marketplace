@@ -608,6 +608,7 @@ function handler_GetListingDetails(listingid) {
                 str += "<p>Edition: " + data.itemedition + "</p>";
                 str += "<p>Author: " + data.itemauthor + "</p>";
                 str += "<p>Seller: " + data.sellername + "</p>";
+                str += "<p>Seller Rating: " + data.sellerrating + "</p>";
                 str += "<p>Price: " + data.price + "</p>";
                 str += "<p>Condition: " + data.condition + "</p>";
                 str += "<p>Quantity Available: " + data.quantity + "</p>";

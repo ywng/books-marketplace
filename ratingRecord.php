@@ -7,8 +7,8 @@ class  ratingRecord
 	public $OverallSellerRating;
 }
 
-function fetchRating($userID) {
- 
+function getUserRatingObject($userID) {
+
     //echo $userID;
  
     $userID=mysql_real_escape_string($userID);
@@ -34,7 +34,12 @@ function fetchRating($userID) {
     $total_no_like = $dataset[0]["myCount"];
     
     $ratingRecord->OverallSellerRating=(string)$total_no_like." out of ".(string)$total_no_rate." buyers like this seller";
-    
+   
+    return $ratingRecord; 
+}
+
+function fetchRating($userID) {
+    $ratingRecord = getUserRatingObject($userID);
     $resultArray[0] = $ratingRecord;
     header("Content-type: application/json");
     echo json_encode($resultArray);     
