@@ -236,7 +236,10 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
 
 
             },
-            error: function(){alert('erroR!!')}
+            error: function(){
+                    console.log('ajax error in invocation of the Records api:' +textStatus + ' ' + errorThrown););
+                    //alert('erroR!!')
+                    }
                          
                 });
     });
@@ -273,7 +276,10 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
                              SellerRating=new String(data[0].OverallSellerRating);
                 
             },
-            error: function(){alert('erroR!!')}
+            error: function(){
+                    console.log('ajax error in invocation of the RatingRecord api:' +textStatus + ' ' + errorThrown););
+                    //alert('erroR!!')
+                    }
                  });
 
                  $.ajax({
@@ -308,7 +314,10 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
                              $("#record_content_details").html(str);
                 
             },
-            error: function(){alert('erroR!!')}
+            error: function(){
+                    console.log('ajax error in invocation of the TransRecord api from record dialog page:' +textStatus + ' ' + errorThrown););
+                    //alert('erroR!!')
+                    }
                 });
 
              
@@ -366,7 +375,10 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
                              $("#past_record_content_details").html(str);
                 
             },
-            error: function(){alert('erroR!!')}
+            error: function(){
+                    console.log('ajax error in invocation of the TransRecord api from past record page:' +textStatus + ' ' + errorThrown););
+                    //alert('erroR!!')
+                    }
                 });
 
              
