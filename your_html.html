@@ -383,9 +383,124 @@
     </div>
     
     <div id="edit_listing_content" data-role="content" data-theme='e'>
-        <p>Note: Form elements for editing listing will go here.</p>
-        <a href="#" data-role="button" data-inline="true" data-theme='a'>Save</a>
-        <a href="#confirm_delete_listing" data-role="button" data-rel="dialog" data-inline="true" data-theme='a'>Delete</a>
+    	<table cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td><strong>Title:</strong>&nbsp;&nbsp;&nbsp;</td>
+				<td><input type="text" data-theme="e" id="edit_listing_itemTitle" /></td>
+			</tr>
+			<tr>
+				<td><strong>Author:</strong>&nbsp;&nbsp;&nbsp;</td>
+				<td><input type="text" data-theme="e" id="edit_listing_itemAuthor" /></td>
+			</tr>
+			<tr>
+				<td><strong>Edition:</strong>&nbsp;&nbsp;&nbsp;</td>
+				<td><input type="text" data-theme="e" id="edit_listing_itemEdition" /></td>
+			</tr>
+			<tr>
+				<td><strong>ISBN:</strong>&nbsp;&nbsp;&nbsp;</td>
+				<td><input type="text" data-theme="e" id="edit_listing_itemISBN" /></td>
+			</tr>
+			<tr>
+				<td><strong>Description:</strong>&nbsp;&nbsp;&nbsp;</td>
+				<td><input type="text" data-theme="e" id="edit_listing_itemDescription" /></td>
+			</tr>
+			<tr>
+				<td><strong>Price:</strong>&nbsp;&nbsp;&nbsp;</td>
+				<td><input type="text" data-theme="e" id="edit_listing_listingPrice" /></td>
+			</tr>
+			<tr>
+				<td><strong>Quantity:</strong>&nbsp;&nbsp;&nbsp;</td>
+				<td><input type="text" data-theme="e" id="edit_listing_listingQuantity" /></td>
+			</tr>
+			<tr>
+				<td><strong>Condition:</strong>&nbsp;&nbsp;&nbsp;</td>
+				<td><input type="text" data-theme="e" id="edit_listing_listingCondition" /></td>
+			</tr>
+    	</table>
+    	
+        <a id="edit_listing_listingUpdatedLink" data-role="button" data-inline="true" data-theme='a'>Update Listing</a>
+        <a id="confirm_disable_listingLink" data-role="button" data-rel="dialog" data-inline="true" data-theme='a'>Disable Listing</a>
+        <a id="enable_listingLink" data-role="button" data-rel="dialog" data-inline="true" data-theme='a'>Enable Listing</a>
+    </div>
+</div>
+
+<!-- Listing Updated Page -->
+<div id="listing_updated" data-role="page" data-title="Listing Disabled">
+    <div data-role='header' data-position='inline'>
+        <h1>Updated</h1>
+    </div>
+    
+    <div id="listing_updated_content" data-role="content">
+        <p id="listing_updated_message">Your listing has been updated.</p>
+        <a href="#records" data-role="button" data-icon="back" data-inline="true" data-theme='a'>
+            Records
+        </a>
+    </div>
+    
+    <div id="my_footer" data-role="footer" class="ui-bar" data-position="fixed">
+        <div data-role="controlgroup" data-type="horizontal">
+            <a href="#home" data-role="button" data-icon="home" data-transition="flip" data-direction="reverse">Wrecklist Home</a>
+            <a href="#search_dialog" data-rel="dialog" data-role="button" data-icon="search" data-transition="flip">Search</a>
+        </div>
+    </div>
+</div>
+
+<!-- Confirm Disable Listing Dialog Page -->
+<div id="confirm_disable_listing" data-role="page" data-title="Confirm Disable Listing">
+    <div data-role='header' data-position='inline' data-theme='e'>
+        <h1> </h1>
+    </div>
+    
+    <div id="confirm_disable_listing_content" data-role="content" data-theme='e'>
+        <p>Are you sure you wish to disable this listing? Your item will no longer be listed for sale.</p>
+        <a id="confirm_disable_listing_no_link" data-role="button" data-rel="dialog" data-inline="true" data-theme='a'>
+            No
+        </a>
+        <a id="confirm_disable_listing_yes_link" data-role="button" data-inline="true" data-theme='d'>
+            Yes
+        </a>
+    </div>
+</div>
+
+<!-- Listing Disabled Page -->
+<div id="listing_disabled" data-role="page" data-title="Listing Disabled">
+    <div data-role='header' data-position='inline'>
+        <h1>Disabled</h1>
+    </div>
+    
+    <div id="listing_deleted_content" data-role="content">
+        <p id="listing_disabled_message">I'm sorry, but an error has occured. Please try again.</p>
+        <a href="#records" data-role="button" data-icon="back" data-inline="true" data-theme='a'>
+            Records
+        </a>
+    </div>
+    
+    <div id="my_footer" data-role="footer" class="ui-bar" data-position="fixed">
+        <div data-role="controlgroup" data-type="horizontal">
+            <a href="#home" data-role="button" data-icon="home" data-transition="flip" data-direction="reverse">Wrecklist Home</a>
+            <a href="#search_dialog" data-rel="dialog" data-role="button" data-icon="search" data-transition="flip">Search</a>
+        </div>
+    </div>
+</div>
+
+<!-- Listing Enabled Page -->
+<div id="listing_enabled" data-role="page" data-title="Listing Disabled">
+    <div data-role='header' data-position='inline'>
+        <h1>Enabled</h1>
+    </div>
+    
+    <div id="listing_deleted_content" data-role="content">
+        <p id="listing_enabled_message">I'm sorry, but an error has occured. Please try again.</p>
+        <a id="listing_enabled_edit_listing_link" data-role="button" data-icon="back" data-inline="true" data-theme='a'>
+            Edit Listing
+        </a>
+    </div>
+    
+    <div id="my_footer" data-role="footer" class="ui-bar" data-position="fixed">
+        <div data-role="controlgroup" data-type="horizontal">
+            <a href="#home" data-role="button" data-icon="home" data-transition="flip" data-direction="reverse">Wrecklist Home</a>
+            <a href="#search_dialog" data-rel="dialog" data-role="button" data-icon="search" data-transition="flip">Search</a>
+        </div>
     </div>
 </div>
 

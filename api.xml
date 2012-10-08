@@ -144,6 +144,35 @@
         </get>
     </command>    
 	
+    <command id='Listings' security='public'>
+        <description><![CDATA[This lets you list out the listings of the user]]></description>
+        <index>
+            <description><![CDATA[This is how you can get listings of a user]]></description>
+            <action file='listings.php'><![CDATA[fetchListings();]]></action>
+        </index>
+        <get>
+            <description><![CDATA[This is how you can get a listing of a user]]></description>
+            <action file='listings.php'><![CDATA[fetchListing($_REST['Listings']);]]></action>
+        </get>
+        <post>
+            <description><![CDATA[This is how you can update a listing]]></description>
+            <action file='listings.php'><![CDATA[updateListing($_POST['data']);]]></action>
+        </post>
+    </command>
+    <command id='DisableListing' security='public'>
+        <description><![CDATA[This lets you disable the listings of the user]]></description>
+        <get>
+            <description><![CDATA[This is how you can disable a listing of a user]]></description>
+            <action file='listings.php'><![CDATA[disableListing($_REST['DisableListing']);]]></action>
+        </get>
+    </command>
+    <command id='EnableListing' security='public'>
+        <description><![CDATA[This lets you enable the listings of the user]]></description>
+        <get>
+            <description><![CDATA[This is how you can enable a listing of a user]]></description>
+            <action file='listings.php'><![CDATA[enableListing($_REST['EnableListing']);]]></action>
+        </get>
+    </command>
 	
 	<command id='message' security='public'>
         <description><![CDATA[This API lets you view the details of a message]]></description>

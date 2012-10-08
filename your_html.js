@@ -244,6 +244,33 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
                     }
                          
                 });
+		$.ajax({
+				url: "api/Listings/",
+				context: document.body,  
+				dataType: "json",    
+				type: 'GET',       
+				async: false,
+             
+				success: function(data, textStatus, jqXHR) {
+						console.log("Object returned by php: " + data);
+						var listingslist_str = "<li data-role=\"list-divider\" role=\"heading\">Edit Your Listings</li>"; 
+						for(i in data){
+							listingslist_str+="<li data-theme=\""+((i%2)?'e':'d')+"\">";
+							listingslist_str+="<a href=\"#edit_listing?listingID="+escape(data[i].listingID)+"\"";
+							listingslist_str+=" data-rel=\"dialog\">";
+							listingslist_str+= "<p>" +"<h7>  "+ data[i].itemTitle + " by " + data[i].itemAuthor + "</h7>"+"</p>";
+							listingslist_str+= "<h8>Price: $" + data[i].listingPrice + "; "
+							listingslist_str+="Quantity: " + data[i].listingQuantity + "; ";
+							listingslist_str+="Created On: " + data[i].listingCreationDate + "    ";
+							listingslist_str+="</h8></a> </li>"      
+						}
+						console.log(listingslist_str);
+						$("#for_sale_list").html(listingslist_str);
+						$("#for_sale_list").listview("refresh");
+					},
+				error: function(){alert('erroR!!')}
+							 
+			});
     });
 
 
@@ -385,6 +412,156 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
 
              
     });
+//--------------------------------------------------
+	$('#edit_listing').on('pageinit',function(e){
+			console.log('edit listing dialog page create event');
+			var listingID=$(this).data('url').split("=")[1];
+			console.log(listingID);
+			
+			$.ajax({
+				url: 'api/Listings/'+escape(listingID),
+				context: document.body,
+				cache: false,
+				dataType: 'json',
+				type: 'GET',
+				async: false,
+				success: function(data, textStatus, jqXHR){
+						console.log("Object returned by php: "+data);
+						$('#edit_listing_itemTitle').val(data.itemTitle);
+						$('#edit_listing_itemAuthor').val(data.itemAuthor);
+						$('#edit_listing_itemEdition').val(data.itemEdition);
+						$('#edit_listing_itemISBN').val(data.itemISBN);
+						$('#edit_listing_itemDescription').val(data.itemDescription);
+						$('#edit_listing_listingPrice').val(data.listingPrice);
+						$('#edit_listing_listingCondition').val(data.listingCondition);
+						$('#edit_listing_listingQuantity').val(data.listingQuantity);
+						$('#edit_listing_listingUpdatedLink')
+							.attr('href','#listing_updated?listingID='+escape(data.listingID));
+						if (data.listingStatus==='1')
+						{
+							$('#edit_listing_itemTitle').attr('disabled','disabled');
+							$('#edit_listing_itemAuthor').attr('disabled','disabled');
+							$('#edit_listing_itemEdition').attr('disabled','disabled');
+							$('#edit_listing_itemISBN').attr('disabled','disabled');
+							$('#edit_listing_itemDescription').attr('disabled','disabled');
+							$('#edit_listing_listingPrice').attr('disabled','disabled');
+							$('#edit_listing_listingCondition').attr('disabled','disabled');
+							$('#edit_listing_listingQuantity').attr('disabled','disabled');
+							$('#edit_listing_listingUpdatedLink').attr('disabled','disabled');
+							$('#enable_listingLink')
+								.attr('href','#listing_enabled?listingID='+escape(data.listingID));
+							$('#confirm_disable_listingLink').css('display','none');
+						}
+						else
+						{
+							$('#confirm_disable_listingLink')
+								.attr('href','#confirm_disable_listing?listingID='+escape(data.listingID));
+							$('#enable_listingLink').css('display','none');
+						}
+					}
+			});
+		});
+//--------------------------------------------------
+	$('#listing_updated').on('pageinit',function(e){
+			console.log('edit listing dialog page create event');
+			$_GET={};
+			$(this).data('url').split("?")[1].split("&").forEach(function(string){
+					$_GET[unescape(string.split('=')[0])]=unescape(string.split('=')[1]);
+				})
+			console.log($_GET.listingID);
+			
+			$.ajax({
+				url: 'api/Listings/',
+				context: document.body,
+				cache: false,
+				data: {'data':JSON.stringify({
+						listingID:$_GET.listingID,
+						listingPrice:$('#edit_listing_listingPrice').val(),
+						listingCondition:$('#edit_listing_listingCondition').val(),
+						listingQuantity:$('#edit_listing_listingQuantity').val(),
+						itemTitle:$('#edit_listing_itemTitle').val(),
+						itemAuthor:$('#edit_listing_itemAuthor').val(),
+						itemEdition:$('#edit_listing_itemEdition').val(),
+						itemISBN:$('#edit_listing_itemISBN').val(),
+						itemDescription:$('#edit_listing_itemDescription').val()
+					})},
+				type: 'POST',
+				dataType: 'json',
+				async: false,
+				success: function(data, textStatus, jqXHR){
+						console.log("Object returned by php: "+data);
+						if (data.rowsaffected>0)
+							$('#listing_updated_message').html('Listing was updated successfully.');
+						else
+							$('#listing_updated_message').html('I\'m sorry, but the listing was not updated. Please try again.');
+					}
+			});
+		});
+//--------------------------------------------------
+	$('#confirm_disable_listing').on('pageinit',function(e){
+			console.log('edit listing dialog page create event');
+			$_GET={};
+			$(this).data('url').split("?")[1].split("&").forEach(function(string){
+					$_GET[unescape(string.split('=')[0])]=unescape(string.split('=')[1]);
+				})
+			console.log($_GET.listingID);
+			
+			$('#confirm_disable_listing_no_link')
+				.attr('href','#edit_listing?listingID='+$_GET.listingID);
+			$('#confirm_disable_listing_yes_link')
+				.attr('href','#listing_disabled?listingID='+$_GET.listingID);
+		});
+//--------------------------------------------------
+	$('#listing_disabled').on('pageinit',function(e){
+			console.log('edit listing dialog page create event');
+			$_GET={};
+			$(this).data('url').split("?")[1].split("&").forEach(function(string){
+					$_GET[unescape(string.split('=')[0])]=unescape(string.split('=')[1]);
+				})
+			console.log($_GET.listingID);
+			
+			$.ajax({
+				url: 'api/DisableListing/'+escape($_GET.listingID),
+				context: document.body,
+				cache: false,
+				type: 'GET',
+				dataType: 'json',
+				async: false,
+				success: function(data, textStatus, jqXHR){
+						console.log("Object returned by php: "+data);
+						if (data.rowsaffected>0)
+							$('#listing_disabled_message').html('Your listing has been disabled. Your item is not longer listed for sale. You can reenable this listing at a later time.');
+						else
+							$('#listing_disabled_message').html('I\'m sorry, but an error has occured. Please try again.');
+					}
+			});
+		});
+//--------------------------------------------------
+	$('#listing_enabled').on('pageinit',function(e){
+			console.log('edit listing dialog page create event');
+			$_GET={};
+			$(this).data('url').split("?")[1].split("&").forEach(function(string){
+					$_GET[unescape(string.split('=')[0])]=unescape(string.split('=')[1]);
+				})
+			console.log($_GET.listingID);
+			
+			$.ajax({
+				url: 'api/EnableListing/'+escape($_GET.listingID),
+				context: document.body,
+				cache: false,
+				type: 'GET',
+				dataType: 'json',
+				async: false,
+				success: function(data, textStatus, jqXHR){
+						console.log("Object returned by php: "+data);
+						if (data.rowsaffected>0)
+							$('#listing_enabled_message').html('Your listing has been enabled.');
+						else
+							$('#listing_enabled_message').html('I\'m sorry, but an error has occured. Please try again.');
+						$('#listing_enabled_edit_listing_link').attr('href','#edit_listing?listingID='+escape($_GET.listingID));
+					}
+			});
+		});
 
 //--------------------------------------------------
     $("#rate_dialog").on('pageinit', function(e) {
