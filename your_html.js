@@ -37,7 +37,9 @@ $(function() {
             }
         }); // end of keydown event
 
+        
     }); // end of pageinit event on search results page
+
 
   $("#inbox").on('pageinit', function(e) {
                  console.log('inboxPage create event');
@@ -561,7 +563,12 @@ function handler_GetItemDetails(itemid) {
                 }
                 
                 $("#entity_content ul").html(str);
-                $("#entity_content ul:visible").listview("refresh", true);
+                try {
+                    $("#entity_content ul").listview("refresh", true);
+                }
+                catch (err) {
+                    console.log('Exception:' + err.message);
+                }
             }  
         },
         error: function(jqHXR, textStatus, errorThrown) {
