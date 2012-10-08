@@ -8,7 +8,7 @@ $(function() {
 		type: 'GET',
 		async: false,
 		success: function(data){
-				if (data=='REDIRECT') location.assign('http://m.gatech.edu/');
+                if (data=='REDIRECT') location.assign('http://m.gatech.edu/');
 			}
 	});
 
@@ -167,6 +167,7 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
     }
 
     if(isPageTransitionRequired) {
+        $("#searchFieldHome").val('');
         $.mobile.changePage( $("#searchResultsPage") );
         $("#searchFieldSERP").val(searchText);
     }
@@ -212,7 +213,7 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
                             i++;
                             console.log(pendinglist_str);
                 $("#pending_list").html(pendinglist_str);
-                        $("#pending_list").listview("refresh");
+                        $("#pending_list").listview("refresh", true);
 
                             //--------------construct past transaction list----------------------------
                 var pastlist_str = "<li data-role=\"list-divider\" role=\"heading\">Past Transactions</li>"; 
@@ -229,7 +230,7 @@ function doSearchPostProcessing(searchText, listViewHTML, isPageTransitionRequir
                 }
                             console.log(pastlist_str);
                 $("#past_list").html(pastlist_str);
-                        $("#past_list").listview("refresh");
+                        $("#past_list").listview("refresh", true);
 
 
             },
@@ -533,7 +534,7 @@ function handler_GetItemDetails(itemid) {
                 str += "<p>Author: " + data.author + "</p>";
                 str += "<p>ISBN: " + data.isbn + "</p>";
                 str += "<p>Description: " + data.description + "</p>";
-                str += "<p>Tagged Courses: ";
+                str += "<p>Tags: ";
                 if (data.tagArray != null) {
                     for (var i = 0; i < data.tagArray.length; ++i) {
                         str += data.tagArray[i];
@@ -561,7 +562,8 @@ function handler_GetItemDetails(itemid) {
                         str += "</li>";
                     }
                 }
-                
+                console.log(str);
+                document.getElementById("entity_content").getElementsByTagName("ul")[0].innerHTML = "<li></li>";
                 $("#entity_content ul").html(str);
                 $("#entity_content ul").listview("refresh", true);
             }  
@@ -610,10 +612,24 @@ function handler_GetListingDetails(listingid) {
 function handler_BuyListing(str_listingid_sellerid) {
     var listingid = str_listingid_sellerid.split(',')[0];
     var sellerid = str_listingid_sellerid.split(',')[1];
+    var sellerName = getSellerNameFromListingContent();
+    
+    console.log('listingid:' + listingid + ' sellerid:' + sellerid + ' sellername:' + sellerName);
 
-    console.log('listingid:' + listingid + ' sellerid:' + sellerid);
 }
 
+function getSellerNameFromListingContent() {
+    var paragraphElementArray = document.getElementById("listing_content").getElementsByTagName("div")[0].getElementsByTagName("p");
+    var sellerName = "";
+
+    for (var i = 0; i < paragraphElementArray.length; ++i) {
+        if(paragraphElementArray[i].innerText.toLowerCase().indexOf("seller") != -1) {
+            sellerName = extractText(paragraphElementArray[i].innerText);
+         }
+    }
+
+    return sellerName;
+}
 
 function handler_SellItem(itemid) {
     console.log("Sell Item invoked with:"+ itemid);
