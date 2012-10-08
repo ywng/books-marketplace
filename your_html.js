@@ -130,7 +130,9 @@ function processSearchRequest(text, isPageTransitionRequired) {
                                 str += "<a href=\"#entity\" data-rel=\"dialog\" onclick=handler_GetItemDetails(" + data[i].itemid + ")>";
                                 str += "<h2>" + data[i].title + "</h2>";
                                 str += "<p>" + data[i].edition + " by " + data[i].author + "</p>";
-                                str += "<span class=\"ui-li-count\">" + data[i].numItemsForSale + " items starting $" + data[i].startingPrice + "</span>";
+                                var isMultiple = (data[i].numItemsForSale > 1 ? "s" : "");
+                                str += "<p><b>" + data[i].numItemsForSale + " item"+ isMultiple +" starting $" + data[i].startingPrice + "</b></p>";
+                                //str += "<span class=\"ui-li-count\">" + data[i].numItemsForSale + " items starting $" + data[i].startingPrice + "</span>";
                                 str += "</a></li>";
                             }
                             console.log('searchresults:' + str);
