@@ -34,7 +34,8 @@ function fetchItemDetailsAndListings($itemid) {
         $dbQuery = "SELECT lst.ID as ListingID, User.Name as SellerName, lst.Condition, lst.price
                     FROM Listing as lst
                     INNER JOIN User ON lst.SellerID = User.ID
-                    WHERE lst.ItemID = ".$itemid.";";
+                    INNER JOIN Status ON lst.Status = Status.ID
+                    WHERE (Status.ID = 4 OR Status.ID = 0) AND lst.ItemID = ".$itemid.";";
 
         $dataset = getDBResultsArray($dbQuery);
         

@@ -37,7 +37,8 @@ function fetchSearchResults($query) {
         $dbQuery = "SELECT Item.ID as ItemID, Item.Title, Item.Author, Item.Edition, COUNT(1) as NumItemsForSale, MIN(Listing.Price) AS StartingPrice
                 FROM Item
                 INNER JOIN Listing on Listing.ItemID = Item.ID
-                WHERE Item.ID IN (".$itemIdList.")
+                INNER JOIN Status on Listing.Status = Status.ID
+                WHERE (Status.ID = 4 OR Status.ID = 0) AND Item.ID IN (".$itemIdList.")
                 GROUP BY Item.ID;";
         $dataset = getDBResultsArray($dbQuery, true);
     
