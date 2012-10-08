@@ -45,16 +45,34 @@ include_once "debug.php";
         echo json_encode($resultArray);
     }
 
-function addMessage($query) {
-    //if (!isset($query) || $query == "")$query = S_REST['search'];
-    $query = mysql_real_escape_string($query);
-   
-    $dbQuery = "SELECT Item.Title, Item.Author, Item.Edition, COUNT(1) as NumItemsForSale, MIN(Listing.Price) AS StartingPrice
-FROM Item
-INNER JOIN Listing on Listing.ItemID = Item.ID
-WHERE Item.Author like '%".$query."%' OR Item.Description like '%".$query."%' OR Item.ISBN like '%".$query."%' GROUP BY Item.ID";
+	function addMessage($data) {
+		global $_USER; 
 
-    header("Content-type: application/json");
-    echo json_encode($resultArray);
-}
+		if(!isset($_USER['uid'])) {
+			//Ideally this code path should never be hit in production
+			$GLOBALS["_PLATFORM"]->sandboxHeader('HTTP/1.1 401 Unauthorized');
+			die();
+		}
+
+		$data =json_decode($data);
+		$sender = getUser($_USER['uid']);
+
+		$dbQuery = "INSERT INTO Message (TransactionID, DateSent, Date1, Date2, Date3, Location1, Location2, Note, Sender, Receiver) 
+		            VALUES (".$data->tranid
+                            .", NOW(), '".$data->date1
+                            ."', '".$data->date2
+                            ."', '".$data->date3
+                            ."', '".$data->location1
+                            ."', '".$data->location2
+                            ."', '".$data->note
+                            ."', ".$sender->id
+                            .", ".$data->receiverID
+                            .")";
+
+        $result = getDBResultInserted($dbQuery,'messageid');
+
+		header("Content-type: application/json");
+		echo json_encode($result);
+    }
+
 ?>

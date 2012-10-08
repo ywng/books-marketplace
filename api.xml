@@ -142,5 +142,23 @@
             <description><![CDATA[This is how you can get a message by transaction ID]]></description>
             <action file='message.php'><![CDATA[fetchMessage($_REST['messagedetails']);]]></action>
         </get>
+    </command>    
+	
+	
+	<command id='message' security='public'>
+        <description><![CDATA[This API lets you view the details of a message]]></description>
+        <post>
+            <description><![CDATA[This is how you can get a message by transaction ID]]></description>
+            <action file='message.php'><![CDATA[addMessage($_POST['data']);]]></action>
+        </post>
+    </command>    
+	
+	
+	<command id='transaction' security='public'>
+        <description><![CDATA[This API lets you view the details of a message]]></description>
+        <get>
+            <description><![CDATA[This is how you can get a message by transaction ID]]></description>
+            <action file='transaction.php'><![CDATA[addTransaction($_REST['transaction']);]]></action>
+        </get>
     </command>
 </api>

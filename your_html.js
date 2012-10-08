@@ -8,7 +8,7 @@ $(function() {
 		type: 'GET',
 		async: false,
 		success: function(data){
-                if (data=='REDIRECT') location.assign('http://m.gatech.edu/');
+				if (data=='REDIRECT') location.assign('http://m.gatech.edu/');
 			}
 	});
 
@@ -513,9 +513,6 @@ function handler_GetSentMessageDetails(transactionID, dateSent) {
            });
 }
 
-function handler_Reply(transactionID, receiverID){
-    // for Cassidy to handle with Send Message Page
-}
 
 function handler_GetItemDetails(itemid) {
     console.log("Get Item Details invoked with:"+ itemid);
@@ -562,6 +559,7 @@ function handler_GetItemDetails(itemid) {
                         str += "</li>";
                     }
                 }
+                
                 $("#entity_content ul").html(str);
                 $("#entity_content ul:visible").listview("refresh", true);
             }  
@@ -606,28 +604,162 @@ function handler_GetListingDetails(listingid) {
     });
 }
 
-// function for cassidy to handle the buy listing call
+function handler_Reply(transactionID, receiverID)
+{
+    var receiverName = getReceiverNameFromMesssageContent();
+	console.log('transactionID:' + transactionID + ' receiverID:' + receiverID + ' receiverName:' + receiverName);
+    
+    document.getElementById("rec_label").innerText = receiverName;
+	var anchorTag = document.getElementById("send_message_content").getElementsByTagName("a")[0];
+	anchorTag.removeAttribute("onclick");
+	
+	anchorTag.setAttribute("onclick", "handler_MessageSubmit("+transactionID+", " +receiverID + ", 0)");
+}
+
+function getReceiverNameFromMesssageContent() {
+    var paragraphElementArray = document.getElementById("message_content").getElementsByTagName("p");
+    var receiverName = ""; 
+
+    for (var i = 0; i < paragraphElementArray.length; ++i) {
+        if(paragraphElementArray[i].innerText.toLowerCase().indexOf("from") != -1) {
+            receiverName = extractText(paragraphElementArray[i].innerText);
+        }   
+    }
+
+    return receiverName;
+}
+
 function handler_BuyListing(str_listingid_sellerid) {
     var listingid = str_listingid_sellerid.split(',')[0];
     var sellerid = str_listingid_sellerid.split(',')[1];
-    var sellerName = getSellerNameFromListingContent();
+    var sellerName = getSellerNameFromListingContent();	
+	console.log('listingid:' + listingid + ' sellerid:' + sellerid + ' sellername:' + sellerName);
+	
+	document.getElementById("rec_label").innerText = sellerName;
+	
+	var anchorTag = document.getElementById("send_message_content").getElementsByTagName("a")[0];
+	
+	anchorTag.removeAttribute("onclick");
+	anchorTag.setAttribute("onclick", "handler_MessageSubmit("+listingid+", " + sellerid + ", 1)");
+	
     
-    console.log('listingid:' + listingid + ' sellerid:' + sellerid + ' sellername:' + sellerName);
 
+
+		
 }
 
 function getSellerNameFromListingContent() {
     var paragraphElementArray = document.getElementById("listing_content").getElementsByTagName("div")[0].getElementsByTagName("p");
-    var sellerName = "";
+    var sellerName = ""; 
 
     for (var i = 0; i < paragraphElementArray.length; ++i) {
         if(paragraphElementArray[i].innerText.toLowerCase().indexOf("seller") != -1) {
             sellerName = extractText(paragraphElementArray[i].innerText);
          }
-    }
+    }   
 
     return sellerName;
 }
+
+
+function handler_MessageSubmit(lORtID, receiver, buyBoolean)
+{
+	var d1 = $("#date1").val();
+	var d2 = $("#date2").val();
+	var d3 = $("#date3").val();
+	var l1 = $("#location1").val();
+	var l2 = $("#location2").val();
+	var n = $("#note").val();
+	
+	if(buyBoolean == 0)
+	{
+		
+		console.log("TransactionID: " + lORtID);
+		var messageData = {
+			tranid: lORtID,
+			receiverID: receiver,
+			date1: d1,
+			date2: d2,
+			date3: d3,
+			location1: l1,
+			location2: l2,
+			note: n,		
+		};
+		var message = JSON.stringify(messageData);
+		console.log("JSON:" + message);
+		
+		$.ajax({
+			url: "api/message/",
+			context: document.body,
+			type: "POST",
+			data: {'data' : message},
+			dataType: "json",
+			async: false,
+			success: function(data, textStatus, jqXHR)
+			{
+				console.log("successful message");
+				var otherName = $("#rec_label").text();
+                console.log("othername:" + otherName);
+                $("#message_sent_content p").text("Your message has been sent to " + otherName);
+				
+			}
+			
+		});
+		
+	}
+	else
+	{
+		
+		$.ajax({
+			url: "api/transaction/" + lORtID,
+			context: document.body,
+			dataType: "json",
+			async: false,
+			success: function(data, textStatus, jqXHR)
+			{	
+				console.log("TransactionID: " + data.tid);
+				var messageData = {
+					tranid: data.tid,
+					receiverID: receiver,
+					date1: d1,
+					date2: d2,
+					date3: d3,
+					location1: l1,
+					location2: l2,
+					note: n,		
+				};
+				var message = JSON.stringify(messageData);
+				console.log("JSON:" + message);
+				
+				$.ajax({
+					url: "api/message/",
+					context: document.body,
+					type: "POST",
+					data: {'data' : message},
+					dataType: "json",
+					async: false,
+					success: function(data, textStatus, jqXHR)
+					{
+						console.log("successful message");
+						var otherName = $("#rec_label").text();
+                        console.log("othername:" + otherName);
+						$("#message_sent_content p").text("Your message has been sent to " + otherName);
+					}
+					
+				});
+
+			},
+			error: function(jqHXR, textStatus, errorThrown) {
+				console.log('ajaxerror in handler_MessageSubmit:' +textStatus + ' ' + errorThrown);
+			}
+
+		
+		});
+	
+	}
+	console.log("MessageSubmit Processing to "+receiver);
+}
+
 
 function handler_SellItem(itemid) {
     console.log("Sell Item invoked with:"+ itemid);
