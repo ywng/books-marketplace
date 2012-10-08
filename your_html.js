@@ -852,7 +852,7 @@ function getSellerNameFromListingContent() {
     var sellerName = ""; 
 
     for (var i = 0; i < paragraphElementArray.length; ++i) {
-        if(paragraphElementArray[i].innerText.toLowerCase().indexOf("seller") != -1) {
+        if(paragraphElementArray[i].innerText.toLowerCase().indexOf("seller") != -1 && paragraphElementArray[i].innerText.toLowerCase().indexOf("rating") == -1) {
             sellerName = extractText(paragraphElementArray[i].innerText);
          }
     }   
