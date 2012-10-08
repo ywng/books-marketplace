@@ -138,14 +138,16 @@ function processSearchRequest(text, isPageTransitionRequired) {
                             console.log('searchresults:' + str);
                             console.log('searchtext inside ajax:' + text);
 
-                            var divHTML = "", displayAnchorTag = false;
+                            var divHTML = "", displayAnchorTag = true;
                             if (data.length == 0) {
                                 divHTML = "<p>There are no listings that match your search criteria.</p>";
-                                divHTML += "<p>Relax the search criteria and try searching again.</p><br/><br/>";
-                                divHTML += "<p>Be the first to sell this item by clicking on the button below</p>";
-
-                                displayAnchorTag = true;
                             }
+                            else {
+                                divHTML = "<p>Did none of listings match your search criteria?</p>";
+                            }
+
+                            divHTML += "<p>Relax the search criteria and try searching again.</p><br/><br/>";
+                            divHTML += "<p>Be the first to sell this item by clicking on the button below</p>";
                             
                             doSearchPostProcessing(text, str, isPageTransitionRequired, divHTML, displayAnchorTag);
                         },
